@@ -2,12 +2,14 @@ import React from 'react';
 
 import {View, StyleSheet, Dimensions, Image} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-
+import RNBootSplash from 'react-native-bootsplash';
 const {height, width} = Dimensions.get('window');
 
 const SplashScreen = ({navigation}) => {
-  setTimeout(() => {
-    navigation.replace('signin');
+    RNBootSplash.show();
+    setTimeout(() => {
+    RNBootSplash.hide({duration: 250});
+    // navigation.replace('signin');
   }, 2000);
 
   return (
@@ -22,13 +24,13 @@ const SplashScreen = ({navigation}) => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <Image
+        {/* <Image
           source={require('./src/assets/launch_screen.png')}
-          resizeMode='contain'
+          resizeMode="contain"
           style={{
             width: 200,
-           }}
-        />
+          }}
+        /> */}
       </LinearGradient>
     </View>
   );
