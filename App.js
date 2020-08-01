@@ -4,14 +4,22 @@ import {Easing} from 'react-native';
 import {
   createStackNavigator,
   TransitionPresets,
-  CardStyleInterpolators,
+  // CardStyleInterpolators,
 } from '@react-navigation/stack';
-import Home from './main';
-import Splash from './SplashScreen';
+import {createDrawerNavigator} from '@react-navigation/drawer'
+
 import Signin from './src/screens/signin';
 import Signup from './src/screens/signup';
+import Language from './src/screens/language';
+import OtpVerification from './src/screens/otpVerification';
+import Slider from './src/screens/slider'
+import Home from './src/screens/home'
+import {Dimensions,View} from 'react-native'
+
+const {width}=Dimensions.get('window')
 
 const Stack = createStackNavigator();
+const Auth = createStackNavigator();
 
 const config = {
   animation: 'spring',
@@ -33,44 +41,65 @@ const closeConfig = {
   },
 };
 
+const AuthScreen = () => (
+  <Auth.Navigator
+    initialRouteName="signin"
+    screenOptions={{
+      gestureEnabled: true,
+      gestureDirection: 'horizontal',
+      transitionSpec: {
+        open: config,
+        close: closeConfig,
+      },
+      ...TransitionPresets.SlideFromRightIOS,
+      // ...TransitionPresets.FadeFromBottom
+      // cardStyleInterpolator:CardStyleInterpolators.forHorizontalIOS
+      // forFadeBottomFromAndroid
+    }}
+    headerMode="none">
+    <Auth.Screen name="signin" component={Signin} />
+    <Auth.Screen name="signup" component={Signup} />
+  </Auth.Navigator>
+);
+
+const Drawer=createDrawerNavigator()
+
+const CustomDrawerContent=({navigation})=>(
+  <View></View>
+)
+
+const HomeScreen=()=>(
+  <Drawer.Navigator
+  drawerStyle={{
+    backgroundColor:'#000',
+    width:width
+  }}
+  drawerContent={(props)=><CustomDrawerContent {...props} />}
+  drawerType="slide"
+  overlayColor="transparent"
+  initialRouteName="home">
+     <Drawer.Screen name="home"  component={Home} />
+  </Drawer.Navigator>
+)
+
+
 const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRoute="splash"
         screenOptions={{
-          gestureEnabled: true,
-          gestureDirection: 'horizontal',
           transitionSpec: {
-            open: config,
+            open: closeConfig,
             close: closeConfig,
           },
-          ...TransitionPresets.SlideFromRightIOS
-          // ...TransitionPresets.FadeFromBottom
-          // cardStyleInterpolator:CardStyleInterpolators.forHorizontalIOS
-          // forFadeBottomFromAndroid
         }}
+        initialRouteName="language"
         headerMode="none">
-        <Stack.Screen name="splash" component={Splash} />
-        <Stack.Screen
-          name="signin"
-          component={Signin}
-
-          // options={{
-
-          // }}
-        />
-        <Stack.Screen
-          name="signup"
-          component={Signup}
-          options={
-            {
-              // gestureEnabled: true,
-              // gestureDirection: 'horizontal',
-            }
-          }
-        />
-        <Stack.Screen name="home" component={Home} />
+        <Stack.Screen name="language" component={Language} />
+        <Stack.Screen name="auth" component={AuthScreen} />
+        <Stack.Screen name="otp" component={OtpVerification}/>
+        <Stack.Screen name="slider" component={Slider} />
+        <Stack.Screen name="home" component={HomeScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

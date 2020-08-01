@@ -2,15 +2,10 @@ import React from 'react';
 
 import {View, StyleSheet, Dimensions, Image} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import RNBootSplash from 'react-native-bootsplash';
 const {height, width} = Dimensions.get('window');
 
 const SplashScreen = ({navigation}) => {
-    RNBootSplash.show();
-    setTimeout(() => {
-    RNBootSplash.hide({duration: 250});
-    // navigation.replace('signin');
-  }, 2000);
+
 
   return (
     <View>

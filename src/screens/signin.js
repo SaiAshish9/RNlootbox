@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -14,6 +14,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import Input from '../components/input';
 
 import Icon from 'react-native-vector-icons/AntDesign';
+
+import {Fonts} from '../utils/Fonts';
 
 const {height, width} = Dimensions.get('window');
 
@@ -48,7 +50,10 @@ const Signin = ({navigation}) => {
               marginBottom: 27,
               marginLeft: 12,
             }}>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('signin');
+              }}>
               <Text
                 style={{
                   color: '#ECDBFA',
@@ -56,6 +61,7 @@ const Signin = ({navigation}) => {
                   paddingHorizontal: 10,
                   borderRightColor: '#ECDBFA',
                   borderRightWidth: 1,
+                  fontFamily: Fonts.Montserrat,
                 }}>
                 Login
               </Text>
@@ -70,6 +76,7 @@ const Signin = ({navigation}) => {
                   fontSize: 20,
                   paddingHorizontal: 10,
                   opacity: 0.24,
+                  fontFamily: Fonts.Montserrat,
                 }}>
                 Signup
               </Text>
@@ -87,85 +94,94 @@ const Signin = ({navigation}) => {
               color: '#ECDBFA',
               fontSize: 12,
               fontWeight: 'bold',
+              fontFamily: Fonts.Montserrat,
             }}>
             Forgot Password?
           </Text>
 
-          <TouchableOpacity>
-            <LinearGradient
-              start={{x: 0, y: 1}}
-              end={{x: 1, y: 0}}
-              colors={['#C01C8A', '#865CF4']}
+          <LinearGradient
+            start={{x: 0, y: 1}}
+            end={{x: 1, y: 0}}
+            colors={['#C01C8A', '#865CF4']}
+            style={{
+              height: height * 0.09,
+              borderRadius: 10,
+              marginTop: 25,
+              elevation: 100,
+              width: width * 0.75,
+            }}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('otp');
+              }}
               style={{
+                width: '100%',
                 height: height * 0.09,
-                borderRadius: 10,
-                marginTop: 25,
-                elevation: 100,
-                width: width * 0.75,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-              <TouchableOpacity
+              <Text
                 style={{
-                  width: '100%',
-                  height: height * 0.09,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
+                  fontWeight: 'bold',
+                  color: '#fff',
+                  letterSpacing: 0.5,
+                  fontStyle: 'italic',
+                  fontFamily: Fonts.Montserrat,
                 }}>
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                    color: '#fff',
-                    letterSpacing: 0.5,
-                    fontStyle: 'italic',
-                  }}>
-                  LOGIN
-                </Text>
-              </TouchableOpacity>
-            </LinearGradient>
-          </TouchableOpacity>
+                LOGIN
+              </Text>
+            </TouchableOpacity>
+          </LinearGradient>
 
-          <TouchableOpacity>
-            <LinearGradient
-              start={{x: 0, y: 0}}
-              end={{x: 1, y: 0}}
-              colors={['rgba(184,37,154,0.16)', 'rgba(184,37,154,0.16)']}
+          <LinearGradient
+            start={{x: 0, y: 0}}
+            end={{x: 1, y: 0}}
+            colors={['rgba(184,37,154,0.16)', 'rgba(184,37,154,0.16)']}
+            style={{
+              height: height * 0.09,
+              borderRadius: 10,
+              borderColor: '#C01C8A',
+              borderWidth: 1.5,
+              marginTop: 18,
+              elevation: 100,
+              width: width * 0.75,
+            }}>
+            <TouchableOpacity
               style={{
+                width: '100%',
                 height: height * 0.09,
-                borderRadius: 10,
-                borderColor: '#C01C8A',
-                borderWidth: 1.5,
-                marginTop: 18,
-                elevation: 100,
-                width: width * 0.75,
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
-              <TouchableOpacity
-                style={{
-                  width: '100%',
-                  height: height * 0.09,
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Icon
+              {/* <Icon
                   name="google"
                   size={20}
                   color="#dc2eda"
                   style={{marginRight: 10}}
                   solid
-                />
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                    color: '#fff',
-                    letterSpacing: 0.5,
-                    fontStyle: 'italic',
-                  }}>
-                  Continue With Gmail
-                </Text>
-              </TouchableOpacity>
-            </LinearGradient>
-          </TouchableOpacity>
+                /> */}
+              <Image
+                source={require('../assets/ic_google.png')}
+                style={{
+                  fontSize: 20,
+                  marginRight: 10,
+                }}
+              />
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  color: '#fff',
+                  letterSpacing: 0.5,
+                  fontStyle: 'italic',
+                  fontFamily: Fonts.Montserrat,
+                }}>
+                Continue With Gmail
+              </Text>
+            </TouchableOpacity>
+          </LinearGradient>
         </SafeAreaView>
       </ScrollView>
     </LinearGradient>
