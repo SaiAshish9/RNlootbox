@@ -14,7 +14,11 @@ import Language from './src/screens/language';
 import OtpVerification from './src/screens/otpVerification';
 import Slider from './src/screens/slider'
 import Home from './src/screens/home'
-import {Dimensions,View} from 'react-native'
+
+import CustomDrawerContent from './src/components/drawer'
+
+import {Dimensions} from 'react-native'
+
 
 const {width}=Dimensions.get('window')
 
@@ -64,9 +68,6 @@ const AuthScreen = () => (
 
 const Drawer=createDrawerNavigator()
 
-const CustomDrawerContent=({navigation})=>(
-  <View></View>
-)
 
 const HomeScreen=()=>(
   <Drawer.Navigator
