@@ -4,7 +4,7 @@ import LinearGradient from 'react-native-linear-gradient';
 const {height, width} = Dimensions.get('window');
 
 
-const Input = ({placeholder,onChangeText, password, email, tel, style, otp, inpStyle}) => (
+const Input = ({placeholder,onChangeText, password, email, tel, style, otp, inpStyle,defaultValue}) => (
   <LinearGradient
     start={{x: 0, y: 0}}
     end={{x: 1, y: 0}}
@@ -30,6 +30,7 @@ const Input = ({placeholder,onChangeText, password, email, tel, style, otp, inpS
       onChangeText={onChangeText}
       autoCapitalize="none"
       blurOnSubmit={true}
+      defaultValue={defaultValue}
       keyboardType={email ? 'email-address' : tel ? 'phone-pad' : 'default'}
       style={[styles.inp, inpStyle]}
     />

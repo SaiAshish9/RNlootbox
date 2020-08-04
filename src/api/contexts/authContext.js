@@ -77,10 +77,24 @@ const verifyOtp = (dispatch) => async ({user_id, otp}) => {
     });
     navigate({name: 'home'});
   } catch (e) {
-    console.log(e)
+    console.log(e);
     dispatch({
       type: 'add_error',
       payload: 'OTP verification failed',
+    });
+  }
+};
+
+const signup = (dispatch) => async (data) => {
+  try {
+    const res = await Api.post('app/user/register', data);
+    console.log(res);
+    navigate({name: 'otp'});
+  } catch (e) {
+    console.log(e);
+    dispatch({
+      type: 'add_error',
+      payload: 'Something went wrong with sign up',
     });
   }
 };
@@ -91,16 +105,21 @@ const signout = (dispatch) => async () => {
   navigate({name: 'language'});
 };
 
+const addError = (dispatch) => (msg) =>
+  dispatch({type: 'add_error', payload: msg});
+
 const removeError = (dispatch) => () => dispatch({type: 'remove_error'});
 
 export const {Context, Provider} = createDataContext(
   reducer,
   {
     signin,
+    signup,
     removeError,
     signout,
     checkUser,
     verifyOtp,
+    addError,
   },
   {
     token: null,

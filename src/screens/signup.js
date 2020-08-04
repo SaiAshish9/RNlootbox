@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   View,
   Text,
@@ -13,13 +13,32 @@ import {
 import Logo from '../assets/launch_screen.png';
 import LinearGradient from 'react-native-linear-gradient';
 import Input from '../components/input';
-
 import Icon from 'react-native-vector-icons/AntDesign';
+import {Context as AuthContext} from '../api/contexts/authContext';
 
 const {height, width} = Dimensions.get('window');
 
 const Signup = ({navigation}) => {
   const [selected, setSelected] = useState(false);
+  const {signup, addError} = useContext(AuthContext);
+
+  const [first_name, setFirstName] = useState('Shubham');
+  const [last_name, setLastName] = useState('Sharma');
+  const [phone, setPhone] = useState('97523476');
+  const [email, setEmail] = useState('Shubham@o2onelabs3.com');
+  const [password, setPassword] = useState('123456');
+  const [user_type, setUserType] = useState(1);
+  const [is_google, setIsGoogle] = useState(0);
+
+  const data = {
+    first_name,
+    last_name,
+    phone,
+    email,
+    password,
+    user_type,
+    is_google,
+  };
 
   return (
     <LinearGradient
@@ -80,22 +99,45 @@ const Signup = ({navigation}) => {
             </TouchableOpacity>
           </View>
 
-          <Input placeholder="First Name" />
+          <Input
+            placeholder="First Name"
+            defaultValue={first_name}
+            onChangeText={setFirstName}
+          />
 
           <View style={{marginTop: 27}}>
-            <Input placeholder="Last Name" />
+            <Input
+              placeholder="Last Name"
+              defaultValue={last_name}
+              onChangeText={setLastName}
+            />
           </View>
 
           <View style={{marginTop: 27}}>
-            <Input placeholder="Phone Number" tel />
+            <Input
+              placeholder="Phone Number"
+              tel
+              onChangeText={setPhone}
+              defaultValue={phone}
+            />
           </View>
 
           <View style={{marginTop: 27}}>
-            <Input placeholder="Email" email />
+            <Input
+              placeholder="Email"
+              email
+              onChangeText={setEmail}
+              defaultValue={email}
+            />
           </View>
 
           <View style={{marginTop: 27}}>
-            <Input placeholder="Password" password />
+            <Input
+              placeholder="Password"
+              onChangeText={setPassword}
+              password
+              defaultValue={password}
+            />
           </View>
 
           <View
@@ -163,24 +205,29 @@ const Signup = ({navigation}) => {
             </Text>
           </View>
 
-          <LinearGradient
-            start={{x: 0, y: 1}}
-            end={{x: 1, y: 0}}
-            colors={['#C01C8A', '#865CF4']}
+          <TouchableOpacity
+            onPress={() => {
+              if (selected) {
+                signup(data);
+              } else {
+                addError('Agree to our terms and conditions');
+              }
+              // navigation.navigate('otp');
+            }}
             style={{
               height: height * 0.09,
-              borderRadius: 10,
               marginTop: 25,
-              elevation: 100,
-              width: width * 0.75,
             }}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('otp');
-              }}
+            <LinearGradient
+              start={{x: 0, y: 1}}
+              end={{x: 1, y: 0}}
+              colors={['#C01C8A', '#865CF4']}
               style={{
-                width: '100%',
                 height: height * 0.09,
+                borderRadius: 10,
+                // marginTop: 25,
+                elevation: 100,
+                width: width * 0.75,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -194,8 +241,8 @@ const Signup = ({navigation}) => {
                 }}>
                 SIGN UP
               </Text>
-            </TouchableOpacity>
-          </LinearGradient>
+            </LinearGradient>
+          </TouchableOpacity>
 
           <LinearGradient
             start={{x: 0, y: 0}}
