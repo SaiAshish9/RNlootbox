@@ -1,21 +1,20 @@
-import React, {useEffect} from 'react';
-import {SafeAreaView, View, Text, Dimensions,Image,TouchableOpacity} from 'react-native';
-import RNBootSplash from 'react-native-bootsplash';
+import React, {useContext, useState} from 'react';
+import {
+  SafeAreaView,
+  View,
+  Text,
+  Dimensions,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {Fonts} from '../utils/Fonts';
+
+import {Context as AuthContext} from '../api/contexts/authContext';
 
 const {height, width} = Dimensions.get('window');
 
 const Language = ({navigation}) => {
-
-console.log(Fonts)
-
-  RNBootSplash.show()
-  useEffect(() => {
-    setTimeout(() => {
-      RNBootSplash.hide({duration: 250});
-    }, 1000);
-  }, []);
+  const {state} = useContext(AuthContext);
 
   return (
     <LinearGradient
@@ -47,9 +46,13 @@ console.log(Fonts)
             </Text>
             <TouchableOpacity
               onPress={() => {
-                navigation.replace('auth', {
-                  screen: 'signin',
-                });
+                {
+                  state.token
+                    ? navigation.replace('otp')
+                    : navigation.replace('auth', {
+                        screen: 'signin',
+                      });
+                }
               }}>
               <LinearGradient
                 start={{x: 0, y: 0}}
@@ -87,9 +90,13 @@ console.log(Fonts)
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                navigation.replace('auth', {
-                  screen: 'signin',
-                });
+                {
+                  token
+                    ? navigation.replace('otp')
+                    : navigation.replace('auth', {
+                        screen: 'signin',
+                      });
+                }
               }}>
               <LinearGradient
                 start={{x: 0, y: 0}}

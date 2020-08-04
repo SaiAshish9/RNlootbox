@@ -14,12 +14,17 @@ import Logo from '../assets/launch_screen.png';
 import LinearGradient from 'react-native-linear-gradient';
 import Input from '../components/input';
 
+
 import Icon from 'react-native-vector-icons/AntDesign';
 
 const {height, width} = Dimensions.get('window');
 
 const Signup = ({navigation}) => {
   const [selected, setSelected] = useState(false);
+
+
+
+
 
   return (
     <LinearGradient
@@ -55,7 +60,7 @@ const Signup = ({navigation}) => {
             <TouchableOpacity>
               <Text
                 onPress={() => {
-                  navigation.navigate('signin');
+                  navigation.replace('signin');
                 }}
                 style={{
                   color: '#ECDBFA',
@@ -229,7 +234,6 @@ const Signup = ({navigation}) => {
               <Image
                 source={require('../assets/ic_google.png')}
                 style={{
-                  fontSize: 20,
                   marginRight: 10,
                 }}
               />

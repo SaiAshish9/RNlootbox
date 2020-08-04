@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   View,
   Text,
@@ -7,19 +7,24 @@ import {
   Dimensions,
   SafeAreaView,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   ScrollView,
 } from 'react-native';
 import Logo from '../assets/launch_screen.png';
 import LinearGradient from 'react-native-linear-gradient';
 import Input from '../components/input';
-
-import Icon from 'react-native-vector-icons/AntDesign';
-
 import {Fonts} from '../utils/Fonts';
+import {Context as AuthContext} from '../api/contexts/authContext';
+import Modal from '../components/modal';
 
 const {height, width} = Dimensions.get('window');
 
 const Signin = ({navigation}) => {
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+
+  const {signin, state} = useContext(AuthContext);
+
   return (
     <LinearGradient
       colors={['#2A2D39', '#261D2A']}
@@ -29,7 +34,6 @@ const Signin = ({navigation}) => {
         overflowX: 'hidden',
         display: 'flex',
         alignItems: 'center',
-        // justifyContent:'center'
       }}>
       <ScrollView>
         <SafeAreaView style={{display: 'flex', alignItems: 'center'}}>
@@ -38,7 +42,6 @@ const Signin = ({navigation}) => {
             resizeMode="contain"
             style={{
               width: 150,
-              // margin: 'auto',
               marginTop: width * 0.01,
             }}
           />
@@ -52,7 +55,7 @@ const Signin = ({navigation}) => {
             }}>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate('signin');
+                navigation.replace('signin');
               }}>
               <Text
                 style={{
@@ -68,7 +71,7 @@ const Signin = ({navigation}) => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate('signup');
+                navigation.replace('signup');
               }}>
               <Text
                 style={{
@@ -83,10 +86,23 @@ const Signin = ({navigation}) => {
             </TouchableOpacity>
           </View>
 
-          <Input placeholder="Phone Number Or Email" />
+          {state.error_msg ? <Modal msg={state.error_msg} /> : null}
+
+          <Input
+            value={email}
+            onChangeText={setEmail}
+            placeholder="Phone Number Or Email"
+          />
+
           <View style={{marginTop: 27}}>
-            <Input placeholder="Password" password />
+            <Input
+              value={password}
+              onChangeText={setPassword}
+              placeholder="Password"
+              password
+            />
           </View>
+
           <Text
             style={{
               alignSelf: 'flex-end',
@@ -99,27 +115,27 @@ const Signin = ({navigation}) => {
             Forgot Password?
           </Text>
 
-          <LinearGradient
-            start={{x: 0, y: 1}}
-            end={{x: 1, y: 0}}
-            colors={['#C01C8A', '#865CF4']}
+          <TouchableWithoutFeedback
+            onPress={() => {
+              signin({email, password});
+            }}
             style={{
-              height: height * 0.09,
-              borderRadius: 10,
-              marginTop: 25,
-              elevation: 100,
-              width: width * 0.75,
+              width: '100%',
             }}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('otp');
-              }}
+            <LinearGradient
+              start={{x: 0, y: 1}}
+              end={{x: 1, y: 0}}
+              colors={['#C01C8A', '#865CF4']}
               style={{
-                width: '100%',
                 height: height * 0.09,
+                borderRadius: 10,
+                marginTop: 25,
                 display: 'flex',
+                height: height * 0.09,
                 alignItems: 'center',
                 justifyContent: 'center',
+                elevation: 100,
+                width: width * 0.75,
               }}>
               <Text
                 style={{
@@ -131,42 +147,34 @@ const Signin = ({navigation}) => {
                 }}>
                 LOGIN
               </Text>
-            </TouchableOpacity>
-          </LinearGradient>
+            </LinearGradient>
+          </TouchableWithoutFeedback>
 
-          <LinearGradient
-            start={{x: 0, y: 0}}
-            end={{x: 1, y: 0}}
-            colors={['rgba(184,37,154,0.16)', 'rgba(184,37,154,0.16)']}
+          <TouchableWithoutFeedback
             style={{
+              width: '100%',
               height: height * 0.09,
-              borderRadius: 10,
-              borderColor: '#C01C8A',
-              borderWidth: 1.5,
-              marginTop: 18,
-              elevation: 100,
-              width: width * 0.75,
+              display: 'flex',
             }}>
-            <TouchableOpacity
+            <LinearGradient
+              start={{x: 0, y: 0}}
+              end={{x: 1, y: 0}}
+              colors={['rgba(184,37,154,0.16)', 'rgba(184,37,154,0.16)']}
               style={{
-                width: '100%',
                 height: height * 0.09,
-                display: 'flex',
+                borderRadius: 10,
+                borderColor: '#C01C8A',
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'center',
+                borderWidth: 1.5,
+                marginTop: 18,
+                elevation: 100,
+                width: width * 0.75,
               }}>
-              {/* <Icon
-                  name="google"
-                  size={20}
-                  color="#dc2eda"
-                  style={{marginRight: 10}}
-                  solid
-                /> */}
               <Image
                 source={require('../assets/ic_google.png')}
                 style={{
-                  fontSize: 20,
                   marginRight: 10,
                 }}
               />
@@ -180,8 +188,8 @@ const Signin = ({navigation}) => {
                 }}>
                 Continue With Gmail
               </Text>
-            </TouchableOpacity>
-          </LinearGradient>
+            </LinearGradient>
+          </TouchableWithoutFeedback>
         </SafeAreaView>
       </ScrollView>
     </LinearGradient>
