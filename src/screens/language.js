@@ -91,7 +91,7 @@ const Language = ({navigation}) => {
             <TouchableOpacity
               onPress={() => {
                 {
-                  token
+                  state.token
                     ? navigation.replace('otp')
                     : navigation.replace('auth', {
                         screen: 'signin',

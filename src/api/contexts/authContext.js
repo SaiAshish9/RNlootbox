@@ -14,11 +14,12 @@ const reducer = (state, action) => {
 
     case 'add_error':
       return {
-        token: null,
+        ...state,
         error_msg: action.payload,
       };
     case 'signout':
       return {
+        otp_verified: false,
         token: null,
         error_msg: null,
       };
@@ -64,6 +65,26 @@ const signin = (dispatch) => async ({email, password}) => {
   }
 };
 
+const verifyOtp = (dispatch) => async ({user_id, otp}) => {
+  try {
+    const res = await Api.post('app/user/verify-otp', {
+      user_id,
+      otp,
+    });
+    console.log(res);
+    dispatch({
+      type: 'verify_otp',
+    });
+    navigate({name: 'home'});
+  } catch (e) {
+    console.log(e)
+    dispatch({
+      type: 'add_error',
+      payload: 'OTP verification failed',
+    });
+  }
+};
+
 const signout = (dispatch) => async () => {
   await AsyncStorage.removeItem('token');
   dispatch({type: 'signout'});
@@ -78,10 +99,12 @@ export const {Context, Provider} = createDataContext(
     signin,
     removeError,
     signout,
-    checkUser
+    checkUser,
+    verifyOtp,
   },
   {
     token: null,
     error_msg: '',
+    otp_verified: false,
   },
 );

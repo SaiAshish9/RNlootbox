@@ -14,17 +14,12 @@ import Logo from '../assets/launch_screen.png';
 import LinearGradient from 'react-native-linear-gradient';
 import Input from '../components/input';
 
-
 import Icon from 'react-native-vector-icons/AntDesign';
 
 const {height, width} = Dimensions.get('window');
 
 const Signup = ({navigation}) => {
   const [selected, setSelected] = useState(false);
-
-
-
-
 
   return (
     <LinearGradient
@@ -224,13 +219,6 @@ const Signup = ({navigation}) => {
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
-              {/* <Icon
-                name="google"
-                size={20}
-                color="#dc2eda"
-                style={{marginRight: 10}}
-                solid
-              /> */}
               <Image
                 source={require('../assets/ic_google.png')}
                 style={{
