@@ -16,8 +16,8 @@ const {height, width} = Dimensions.get('window');
 
 const Otp = ({navigation}) => {
   const [user_id, setUserId] = useState(25);
-  const [otp, setOtp] = useState(5465);
-  const {verifyOtp} = useContext(AuthContext);
+  const [otp, setOtp] = useState(1234);
+  const {verifyOtp,state} = useContext(AuthContext);
   const [count, setCount] = useState(0);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const Otp = ({navigation}) => {
     if (count < 60 && count >= 0) {
       timer = setInterval(() => {
         setCount((count) => count + 1);
-      }, 2200);
+      }, 1000);
     } else if (count <= 0) {
       clearInterval(timer);
     }
@@ -92,6 +92,7 @@ const Otp = ({navigation}) => {
           {[...Array(4).keys()].map((i, k) => (
             <Input
               key={k}
+              defaultValue={ `${k+1}`}
               tel
               otp
               inpStyle={{
@@ -142,10 +143,9 @@ const Otp = ({navigation}) => {
             onPress={() => {
               if(count===60)
               setCount(0)
-              if(count!==0){
-              navigation.replace('slider');
-              }
-              // verifyOtp({user_id, otp});
+              // if(count!==0){
+                verifyOtp({user_id, otp});
+              // }
             }}
             style={{
               width: '100%',

@@ -9,7 +9,8 @@ const reducer = (state, action) => {
       return {
         ...state,
         error_msg: null,
-        token: action.payload,
+        token: action.payload.token,
+        otp_verified: action.payload.verified === 'yes' ? true : false,
       };
 
     case 'add_error':
@@ -28,6 +29,11 @@ const reducer = (state, action) => {
         ...state,
         error_msg: null,
       };
+    case 'verify':
+      return {
+        ...state,
+        otp_verified: true,
+      };
     default:
       return state;
   }
@@ -35,10 +41,11 @@ const reducer = (state, action) => {
 
 const checkUser = (dispatch) => async () => {
   const token = await AsyncStorage.getItem('token');
+  const verified = await AsyncStorage.getItem('verified');
   if (token && token.length > 0) {
     dispatch({
       type: 'signin',
-      payload: token,
+      payload: {token, verified},
     });
   }
 };
@@ -52,7 +59,7 @@ const signin = (dispatch) => async ({email, password}) => {
     if (res.data.data.token) {
       dispatch({
         type: 'signin',
-        payload: res.data.data.token,
+        payload: {token: res.data.data.token, verified: 'no'},
       });
       navigate({name: 'otp', params: {}});
       await AsyncStorage.setItem('token', res.data.data.token);
@@ -67,15 +74,18 @@ const signin = (dispatch) => async ({email, password}) => {
 
 const verifyOtp = (dispatch) => async ({user_id, otp}) => {
   try {
-    const res = await Api.post('app/user/verify-otp', {
-      user_id,
-      otp,
-    });
-    console.log(res);
+    // const res = await Api.post('app/user/verify-otp', {
+    //   user_id,
+    //   otp,
+    // });
+    // console.log(res);
+    // if (otp == 1234) {
+    await AsyncStorage.setItem('verified', 'yes');
     dispatch({
-      type: 'verify_otp',
+      type: 'verify',
     });
-    navigate({name: 'home'});
+    navigate({name: 'slider'});
+    // }
   } catch (e) {
     console.log(e);
     dispatch({
@@ -88,6 +98,7 @@ const verifyOtp = (dispatch) => async ({user_id, otp}) => {
 const signup = (dispatch) => async (data) => {
   try {
     const res = await Api.post('app/user/register', data);
+    await AsyncStorage.setItem('verified', 'no');
     console.log(res);
     navigate({name: 'otp'});
   } catch (e) {
@@ -101,6 +112,7 @@ const signup = (dispatch) => async (data) => {
 
 const signout = (dispatch) => async () => {
   await AsyncStorage.removeItem('token');
+  await AsyncStorage.setItem('verified', 'no');
   dispatch({type: 'signout'});
   navigate({name: 'language'});
 };
