@@ -20,11 +20,13 @@ import Modal from '../components/modal';
 
 const {height, width} = Dimensions.get('window');
 
+
+
 const Signin = ({navigation}) => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
 
-  const {signin, state} = useContext(AuthContext);
+  const {signin, state,googleSignIn} = useContext(AuthContext);
 
   return (
     <TouchableWithoutFeedback
@@ -156,6 +158,9 @@ const Signin = ({navigation}) => {
             </TouchableWithoutFeedback>
 
             <TouchableWithoutFeedback
+              onPress={() => {
+                googleSignIn();
+              }}
               style={{
                 width: '100%',
                 height: height * 0.09,

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="180px" height="70px" viewBox="0 0 180 70" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Group 10 Copy 2</title>
+    <defs>
+        <linearGradient x1="15.0254991%" y1="50%" x2="100%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="104.414637%" y1="64.3093309%" x2="0%" y2="29.7520661%" id="linearGradient-2">
+            <stop stop-color="#865CF4" offset="0%"></stop>
+            <stop stop-color="#C01C8A" offset="100%"></stop>
+        </linearGradient>
+        <path d="M90.5258085,0 L114.04562,0 C117.359329,2.05581688e-15 120.04562,2.6862915 120.04562,6 C120.04562,6.55749916 119.967921,7.11227797 119.814764,7.64832677 L115.243335,23.6483268 C114.50739,26.2241361 112.153074,28 109.474192,28 L85.9543799,28 C82.6406714,28 79.9543799,25.3137085 79.9543799,22 C79.9543799,21.4425008 80.0320794,20.887722 80.1852362,20.3516732 L84.7566648,4.35167323 C85.4926103,1.77586389 87.8469263,2.26845951e-15 90.5258085,0 Z" id="path-3"></path>
+        <filter x="-50.1%" y="-92.9%" width="268.4%" height="378.6%" filterUnits="objectBoundingBox" id="filter-4">
+            <feOffset dx="15" dy="13" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="10.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.721568627   0 0 0 0 0.141176471   0 0 0 0 0.596078431  0 0 0 0.19025896 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-156.000000, -2134.000000)">
+            <g id="Group-10-Copy-2" transform="translate(156.000000, 2140.000000)">
+                <path d="M14.2462113,0 L133.753789,0 C138.172067,6.29380286e-15 141.753789,3.581722 141.753789,8 C141.753789,8.65409446 141.67357,9.30572017 141.514929,9.940285 L137.514929,25.940285 C136.624595,29.501621 133.42473,32 129.753789,32 L10.2462113,32 C5.82793325,32 2.24621125,28.418278 2.24621125,24 C2.24621125,23.3459055 2.32643004,22.6942798 2.48507125,22.059715 L6.48507125,6.059715 C7.37540525,2.49837899 10.5752701,2.45069779e-15 14.2462113,0 Z" id="Rectangle-Copy-4" fill="url(#linearGradient-1)" opacity="0.250604539"></path>
+                <g id="Group-5" transform="translate(23.000000, 2.000000)">
+                    <g id="Rectangle-Copy">
+                        <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use>
+                        <use fill="url(#linearGradient-2)" fill-rule="evenodd" xlink:href="#path-3"></use>
+                    </g>
+                    <text id="2K" opacity="0.5" font-family="Avenir-Roman, Avenir" font-size="12" font-weight="normal" line-spacing="16" fill="#FFFFFF">
+                        <tspan x="56.384" y="18">2K</tspan>
+                    </text>
+                    <text id="1080P" opacity="0.5" font-family="Avenir-Roman, Avenir" font-size="12" font-weight="normal" line-spacing="16" fill="#FFFFFF">
+                        <tspan x="1.598" y="18">1080P</tspan>
+                    </text>
+                    <text id="4K" opacity="0.870000005" font-family="Avenir-Black, Avenir" font-size="12" font-weight="700" line-spacing="16" fill="#FFFFFF">
+                        <tspan x="91.116" y="18">4K</tspan>
+                    </text>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

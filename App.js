@@ -19,6 +19,7 @@ import {Provider as AuthProvider} from './src/api/contexts/authContext';
 import {setNavigator} from './src/api/contexts/navigationRef';
 import RNBootSplash from 'react-native-bootsplash';
 import {Context as AuthContext} from './src/api/contexts/authContext';
+import BuildYourPc from './src/screens/buildYourPc'
 
 const {width, height} = Dimensions.get('window');
 
@@ -117,6 +118,7 @@ const App = () => {
           <Stack.Screen name="otp" component={OtpVerification} />
           <Stack.Screen name="slider" component={Slider} />
           <Stack.Screen name="home" component={HomeScreen} />
+          <Stack.Screen name="buildYourPc" component={BuildYourPc} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>

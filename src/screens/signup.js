@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ScrollView,
   ImageBackground,
+  TouchableWithoutFeedback
 } from 'react-native';
 import Logo from '../assets/launch_screen.png';
 import LinearGradient from 'react-native-linear-gradient';
@@ -20,7 +21,7 @@ const {height, width} = Dimensions.get('window');
 
 const Signup = ({navigation}) => {
   const [selected, setSelected] = useState(false);
-  const {signup, addError} = useContext(AuthContext);
+  const {signup, addError,googleSignIn} = useContext(AuthContext);
 
   const [first_name, setFirstName] = useState('Shubham');
   const [last_name, setLastName] = useState('Sharma');
@@ -244,27 +245,30 @@ const Signup = ({navigation}) => {
             </LinearGradient>
           </TouchableOpacity>
 
-          <LinearGradient
-            start={{x: 0, y: 0}}
-            end={{x: 1, y: 0}}
-            colors={['rgba(184,37,154,0.16)', 'rgba(184,37,154,0.16)']}
+          <TouchableWithoutFeedback
+            onPress={() => {
+              googleSignIn();
+            }}
             style={{
+              width: '100%',
               height: height * 0.09,
-              borderRadius: 10,
-              borderColor: '#C01C8A',
-              borderWidth: 1.5,
-              marginTop: 18,
-              elevation: 100,
-              width: width * 0.75,
+              display: 'flex',
             }}>
-            <TouchableOpacity
+            <LinearGradient
+              start={{x: 0, y: 0}}
+              end={{x: 1, y: 0}}
+              colors={['rgba(184,37,154,0.16)', 'rgba(184,37,154,0.16)']}
               style={{
-                width: '100%',
                 height: height * 0.09,
-                display: 'flex',
+                borderRadius: 10,
+                borderColor: '#C01C8A',
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'center',
+                borderWidth: 1.5,
+                marginTop: 18,
+                elevation: 100,
+                width: width * 0.75,
               }}>
               <Image
                 source={require('../assets/ic_google.png')}
@@ -278,11 +282,12 @@ const Signup = ({navigation}) => {
                   color: '#fff',
                   letterSpacing: 0.5,
                   fontStyle: 'italic',
+                  fontFamily: Fonts.Montserrat,
                 }}>
                 Continue With Gmail
               </Text>
-            </TouchableOpacity>
-          </LinearGradient>
+            </LinearGradient>
+          </TouchableWithoutFeedback>
         </SafeAreaView>
       </ScrollView>
     </LinearGradient>

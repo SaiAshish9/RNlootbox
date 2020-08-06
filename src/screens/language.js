@@ -16,7 +16,6 @@ const {height, width} = Dimensions.get('window');
 const Language = ({navigation}) => {
   const {state,checkUser} = useContext(AuthContext);
    
-  console.log(state)
   return (
     <LinearGradient
       colors={['#2A2D39', '#261D2A']}

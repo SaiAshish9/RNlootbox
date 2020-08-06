@@ -2,6 +2,7 @@ import createDataContext from './createDataContext';
 import Api from '../index';
 import {navigate} from './navigationRef';
 import AsyncStorage from '@react-native-community/async-storage';
+import {GoogleSignin} from '@react-native-community/google-signin';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -46,6 +47,36 @@ const checkUser = (dispatch) => async () => {
     dispatch({
       type: 'signin',
       payload: {token, verified},
+    });
+  }
+};
+
+const googleSignIn = (dispatch) => async () => {
+  try {
+    await GoogleSignin.configure();
+    await GoogleSignin.hasPlayServices();
+    const userInfo = await GoogleSignin.signIn();
+    const {data:{data:{token}}} = await Api.post('app/user/check-google-user', {
+      email:'sanjiv@gmail.com',
+      is_google: 1,
+    });
+   if(token){
+     dispatch({
+       type: 'signin',
+       payload: {
+         token,
+         verified: 'no',
+       },
+     });
+     navigate({name:'otp'})
+    await AsyncStorage.setItem('token', token);
+   }
+    await GoogleSignin.revokeAccess();
+    await GoogleSignin.signOut();
+  } catch (err) {
+    dispatch({
+      type: 'add_error',
+      payload: 'Something went wrong with sign in',
     });
   }
 };
@@ -132,6 +163,7 @@ export const {Context, Provider} = createDataContext(
     checkUser,
     verifyOtp,
     addError,
+    googleSignIn,
   },
   {
     token: null,
