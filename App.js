@@ -116,7 +116,7 @@ const App = () => {
               close: closeConfig,
             },
           }}
-          initialRouteName="profile"
+          initialRouteName="buildYourPc"
           headerMode="none">
           <Stack.Screen name="language" component={Language} />
           <Stack.Screen name="auth" component={AuthScreen} />

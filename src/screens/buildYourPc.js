@@ -6,6 +6,7 @@ import {
   Dimensions,
   TouchableOpacity,
   Image,
+  ActivityIndicator,
   ScrollView,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -161,6 +162,14 @@ const BuildYourPc = ({navigation}) => {
         </ImageBackground> */}
 
         <Testing />
+
+        <ActivityIndicator
+        color="#fff"
+        size="large"
+        style={{
+          marginTop:height * 0.18,
+        }}
+        />
       </ImageBackground>
     </ScrollView>
   );
