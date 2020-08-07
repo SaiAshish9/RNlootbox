@@ -100,14 +100,13 @@ const Profile = ({navigation}) => {
                 onFocus={()=>{
                   setShow(true)
                 }}
-                value={value}
-                placeholder={` Date of Birth : ${
-                  value.toLocaleDateString('en-GB', {
+                placeholder={`Date of Birth ${value && value.toLocaleDateString(
+                  'en', {
                     day: 'numeric',
                     month: 'short',
                     year: 'numeric',
                   })
-                  .replace(/ /g, '-')} `}
+                  .replace(/ /g, '-')}`}
               />
           </View>
           <View style={{marginVertical: 15}}>
@@ -126,6 +125,7 @@ const Profile = ({navigation}) => {
             display="spinner"
             onChange={(e, x) => {
               setShow(false);
+              if(x)
               setValue(x);
               console.log(x);
             }}
@@ -139,3 +139,11 @@ const Profile = ({navigation}) => {
 const styles = StyleSheet.create({});
 
 export default Profile;
+
+// : ${
+//                    value && value.toLocaleDateString('en-GB', {
+//                     day: 'numeric',
+//                     month: 'short',
+//                     year: 'numeric',
+//                   })
+//                   .replace(/ /g, '-')}
