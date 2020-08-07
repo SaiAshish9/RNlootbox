@@ -8,19 +8,19 @@ import {
   Image,
   ScrollView,
 } from 'react-native';
-import Btn from './btn';
-import Back from './back'
 import LinearGradient from 'react-native-linear-gradient';
 import Api from '../api';
+import Skew from '../components/skew';
+import Testing from './testing';
 
 const {width, height} = Dimensions.get('window');
 
-const BuildYourPc = () => {
+const BuildYourPc = ({navigation}) => {
   useEffect(() => {
     Api.post('app/build-pc/get-games', {
       resolution: '2K',
     }).then((data) => {
-      console.log(data);
+      // console.log(data);
     });
   }, []);
 
@@ -122,60 +122,45 @@ const BuildYourPc = () => {
           />
         </View>
 
-        {[...Array(5).keys()].map((i, k) => (
-          <TouchableOpacity
-            key={k}
-            style={{
-              width: '100%',
-              height: 0.11 * height,
-            }}
-            onPress={() => {}}
-            style={{marginVertical: 10}}
-            activeOpacity={0.8}>
-            <Back />
-            <Image
-              source={{
-                uri:
-                  'https://ecard.enter-media.org/upload/iblock/f4b/f4b9d08eded902b28a713003a6c31f69.jpg',
-              }}
-              style={{
-                height: 0.11 * height,
-                borderRadius: 9,
-                width: '100%',
-              }}
-            />
-          </TouchableOpacity>
-        ))}
-
-        <TouchableOpacity
-          activeOpacity={0.9}
+        {/* <ImageBackground
+          source={{
+            uri:
+              'https://ecard.enter-media.org/upload/iblock/f4b/f4b9d08eded902b28a713003a6c31f69.jpg',
+          }}
           style={{
             height: height * 0.1,
-          }}
-          onPress={() => {}}>
-          <Btn />
-          {/* <ImageBackground
-            resizeMode="contain"
+            width: '100%',
+            backgroundColor: '#282733',
+            borderRadius: 20,
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}>
+          <View
             style={{
-              height: height * 0.1,
-              width: '100%',
-              marginVertical: 5,
-              alignItems: 'center',
-              justifyContent: 'center',
+              width: 0,
+              height: 0,
+              borderTopColor: '#282733',
+              // borderTopColor: 'red',
+              borderTopWidth: height * 0.1,
+              borderRightColor: 'transparent',
+              borderRightWidth: height * 0.1,
             }}
-            source={require('../assets/buildYourPc/btn.png')}>
-            <Text
-              style={{
-                color: '#fff',
-                opacity: 0.87,
-                fontSize: 16,
-                fontWeight: 'bold',
-                fontFamily: 'Montserrat-Regular',
-              }}>
-              BUILD YOUR PC
-            </Text>
-          </ImageBackground> */}
-        </TouchableOpacity>
+          />
+          <View
+            style={{
+              width: 0,
+              height: 0,
+              borderBottomColor: '#292734',
+              // borderBottomColor: 'red',
+              borderBottomWidth: height * 0.1,
+              borderLeftColor: 'transparent',
+              borderLeftWidth: height * 0.1,
+            }}
+          />
+        </ImageBackground> */}
+
+        <Testing />
       </ImageBackground>
     </ScrollView>
   );

@@ -15,7 +15,28 @@ import LinearGradient from 'react-native-linear-gradient';
 import {Context as AuthContext}  from '../api/contexts/authContext'
 
 const {width, height} = Dimensions.get('window');
-const options = ['My Cart', 'My Orders', "FAQ's", 'Contact Us', 'Log Out'];
+const options = [
+  {
+    name: 'My Cart',
+    path: 'home',
+  },
+  {
+    name: 'My Orders',
+    path: 'home',
+  },
+  {
+    name: "FAQ's",
+    path: 'home',
+  },
+  {
+    name: 'Contact Us',
+    path: 'contact',
+  },
+  {
+    name: 'Log Out',
+    path: '',
+  },
+];
 
 const Drawer = ({navigation, progress}) => {
 
@@ -118,7 +139,7 @@ const Drawer = ({navigation, progress}) => {
 
           {options.map((i, k) => (
             <TouchableOpacity key={k} onPress={() => {
-              k===options.length-1 && signout()
+              k===options.length-1 ? signout():navigation.push(i.path)
             }}>
               <Text
                 style={{
@@ -128,7 +149,7 @@ const Drawer = ({navigation, progress}) => {
                   fontFamily: 'Montserrat-Medium',
                   marginVertical: height * 0.02,
                 }}>
-                {i}
+                {i.name}
               </Text>
             </TouchableOpacity>
           ))}

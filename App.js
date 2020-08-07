@@ -14,12 +14,14 @@ import OtpVerification from './src/screens/otpVerification';
 import Slider from './src/screens/slider';
 import Home from './src/screens/home';
 import CustomDrawerContent from './src/components/drawer';
-import {Dimensions, View} from 'react-native';
+import {Dimensions, View,StatusBar} from 'react-native';
 import {Provider as AuthProvider} from './src/api/contexts/authContext';
 import {setNavigator} from './src/api/contexts/navigationRef';
 import RNBootSplash from 'react-native-bootsplash';
 import {Context as AuthContext} from './src/api/contexts/authContext';
-import BuildYourPc from './src/screens/buildYourPc'
+import BuildYourPc from './src/screens/buildYourPc';
+import ContactUs from './src/screens/contactUs';
+import Profile from './src/screens/profile';
 
 const {width, height} = Dimensions.get('window');
 
@@ -100,6 +102,9 @@ const App = () => {
         height,
         backgroundColor: '#261D2A',
       }}>
+        {/* <StatusBar
+        backgroundColor='#261D2A'
+        /> */}
       <NavigationContainer
         ref={(navigator) => {
           setNavigator(navigator);
@@ -111,7 +116,7 @@ const App = () => {
               close: closeConfig,
             },
           }}
-          initialRouteName="language"
+          initialRouteName="profile"
           headerMode="none">
           <Stack.Screen name="language" component={Language} />
           <Stack.Screen name="auth" component={AuthScreen} />
@@ -119,6 +124,8 @@ const App = () => {
           <Stack.Screen name="slider" component={Slider} />
           <Stack.Screen name="home" component={HomeScreen} />
           <Stack.Screen name="buildYourPc" component={BuildYourPc} />
+          <Stack.Screen name="contact" component={ContactUs} />
+          <Stack.Screen name="profile" component={Profile} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>

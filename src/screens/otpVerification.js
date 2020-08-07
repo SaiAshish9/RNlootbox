@@ -62,7 +62,6 @@ const Otp = ({navigation}) => {
               source={require('../assets/back.png')}
             />
           </TouchableOpacity>
-
           <Text
             style={{
               fontStyle: 'italic',

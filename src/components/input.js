@@ -3,8 +3,20 @@ import {TextInput, StyleSheet, Dimensions} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 const {height, width} = Dimensions.get('window');
 
-
-const Input = ({placeholder,onChangeText, password, email, tel, style, otp, inpStyle,defaultValue}) => (
+const Input = ({
+  placeholder,
+  onChangeText,
+  editable,
+  multiline,
+  password,
+  email,
+  tel,
+  onFocus,
+  style,
+  otp,
+  inpStyle,
+  defaultValue,
+}) => (
   <LinearGradient
     start={{x: 0, y: 0}}
     end={{x: 1, y: 0}}
@@ -23,6 +35,8 @@ const Input = ({placeholder,onChangeText, password, email, tel, style, otp, inpS
     <TextInput
       secureTextEntry={password}
       placeholder={placeholder}
+      multiline={multiline}
+      onTouchStart={onFocus}
       placeholderTextColor="#ECDBFA"
       autoCompleteType={'off'}
       maxLength={otp && 1}
@@ -30,6 +44,7 @@ const Input = ({placeholder,onChangeText, password, email, tel, style, otp, inpS
       onChangeText={onChangeText}
       autoCapitalize="none"
       blurOnSubmit={true}
+      editable={editable}
       defaultValue={defaultValue}
       keyboardType={email ? 'email-address' : tel ? 'phone-pad' : 'default'}
       style={[styles.inp, inpStyle]}
