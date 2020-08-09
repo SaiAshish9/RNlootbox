@@ -1,10 +1,12 @@
 import React from 'react';
-
+import {Dimensions} from 'react-native'
 import {SvgXml} from 'react-native-svg';
+
+const {width, height} = Dimensions.get('window')
 
 const xml = `
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="353px" height="120px" viewBox="0 0 353 90" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="${width*0.8}px" height="100px" viewBox="0 0 320 70" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <title>Group 9</title>
     <defs>
         <linearGradient x1="104.414637%" y1="50.8204837%" x2="0%" y2="48.8390023%" id="linearGradient-1">
@@ -19,10 +21,19 @@ const xml = `
         </filter>
     </defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Artboard" transform="translate(-349.000000, -2447.000000)">
-            <g id="Rectangle" transform="translate(353.000000, 2455.000000)">
-                <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
-                <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
+        <g id="Artboard" transform="translate(-301.000000, -2158.000000)">
+            <g id="Group-9" transform="translate(305.000000, 2166.000000)">
+                <g id="Rectangle">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+                    <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
+                </g>
+                <g id="Group-14-Copy" transform="translate(82.000000, 15.400000)" fill="#FFFFFF" font-family="Avenir-Black, Avenir" font-size="16" font-weight="700" line-spacing="16" opacity="0.870000005">
+                    <g id="Group-2-Copy-2" transform="translate(0.135120, 0.000000)">
+                        <text id="Build-Your-PC">
+                            <tspan x="0.901504017" y="10.3199707">BUILD YOUR PC</tspan>
+                        </text>
+                    </g>
+                </g>
             </g>
         </g>
     </g>
