@@ -9,17 +9,16 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import Input from '../components/input';
 import {Context as AuthContext} from '../api/contexts/authContext';
+import OtpInput from '../components/otp';
 
 const {height, width} = Dimensions.get('window');
 
 const Otp = ({navigation}) => {
   const [user_id, setUserId] = useState(25);
   const [otp, setOtp] = useState(1234);
-  const {verifyOtp,state} = useContext(AuthContext);
+  const {verifyOtp, state} = useContext(AuthContext);
   const [count, setCount] = useState(0);
-
   useEffect(() => {
     let timer;
     if (count < 60 && count >= 0) {
@@ -39,8 +38,6 @@ const Otp = ({navigation}) => {
         width: width,
         minHeight: height,
         overflowX: 'hidden',
-
-        // justifyContent:'center'
       }}>
       <ImageBackground
         style={{
@@ -88,28 +85,7 @@ const Otp = ({navigation}) => {
             justifyContent: 'space-between',
             marginTop: 30,
           }}>
-          {[...Array(4).keys()].map((i, k) => (
-            <Input
-              key={k}
-              defaultValue={ `${k+1}`}
-              tel
-              otp
-              inpStyle={{
-                width: width * 0.15,
-              }}
-              style={{
-                width: width * 0.15,
-                height: height * 0.09,
-                textAlign: 'center',
-                //   marginRight: 20,
-                //   paddingTop: 6,
-                borderRadius: 10,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            />
-          ))}
+          <OtpInput />
         </View>
         <Text
           style={{
@@ -140,10 +116,9 @@ const Otp = ({navigation}) => {
           }}>
           <TouchableOpacity
             onPress={() => {
-              if(count===60)
-              setCount(0)
+              if (count === 60) setCount(0);
               // if(count!==0){
-                verifyOtp({user_id, otp});
+              verifyOtp({user_id, otp});
               // }
             }}
             style={{
@@ -160,9 +135,7 @@ const Otp = ({navigation}) => {
                 letterSpacing: 0.5,
                 fontStyle: 'italic',
               }}>
-                {
-                  count === 60?'RESEND OTP':'VERIFY'
-                }
+              {count === 60 ? 'RESEND OTP' : 'VERIFY'}
             </Text>
           </TouchableOpacity>
         </LinearGradient>

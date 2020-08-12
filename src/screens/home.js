@@ -83,7 +83,10 @@ const Home = ({navigation}) => {
           </View>
         </ImageBackground>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => {}}>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('itemDesc');
+        }}>
         <ImageBackground
           source={require('../assets/img_5.png')}
           style={{
@@ -104,7 +107,10 @@ const Home = ({navigation}) => {
               alignSelf: 'flex-end',
               marginTop: height * 0.038,
             }}>
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.push('notifications');
+              }}>
               <Image
                 resizeMode="contain"
                 source={require('../assets/ic_noti.png')}

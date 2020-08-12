@@ -16,6 +16,7 @@ import Card from './card';
 import Btn from './btn';
 import Option1 from './1080P';
 import Option2 from './2K';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 const data = [
   {
@@ -178,21 +179,21 @@ const BuildYourPc = ({navigation}) => {
         {data.map((i, k) => (
           <View key={k} style={{width: '100%', marginVertical: 10}}>
             {!selected.includes(k) ? (
-              <TouchableOpacity
+              <TouchableWithoutFeedback
                 activeOpacity={0.2}
                 onPressIn={() => {
                   setSelected([...selected, k]);
                 }}>
                 <Card text={i.text} image={i.image} />
-              </TouchableOpacity>
+              </TouchableWithoutFeedback>
             ) : (
-              <TouchableOpacity
+              <TouchableWithoutFeedback
                 activeOpacity={0.2}
                 onPressIn={() => {
                   setSelected(selected.filter((x) => x !== k));
                 }}>
                 <Testing text={i.text} image={i.image} />
-              </TouchableOpacity>
+              </TouchableWithoutFeedback>
             )}
           </View>
         ))}

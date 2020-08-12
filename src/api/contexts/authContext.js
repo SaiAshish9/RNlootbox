@@ -57,7 +57,7 @@ const googleSignIn = (dispatch) => async () => {
     await GoogleSignin.hasPlayServices();
     const userInfo = await GoogleSignin.signIn();
     const {data:{data:{token}}} = await Api.post('app/user/check-google-user', {
-      email:'sanjiv@gmail.com',
+      email:userInfo.displayName,
       is_google: 1,
     });
    if(token){

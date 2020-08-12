@@ -9,7 +9,8 @@ import {
   TouchableOpacity,
   ScrollView,
   ImageBackground,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  KeyboardAvoidingView,
 } from 'react-native';
 import Logo from '../assets/launch_screen.png';
 import LinearGradient from 'react-native-linear-gradient';
@@ -21,7 +22,7 @@ const {height, width} = Dimensions.get('window');
 
 const Signup = ({navigation}) => {
   const [selected, setSelected] = useState(false);
-  const {signup, addError,googleSignIn} = useContext(AuthContext);
+  const {signup, addError, googleSignIn} = useContext(AuthContext);
 
   const [first_name, setFirstName] = useState('Shubham');
   const [last_name, setLastName] = useState('Sharma');
@@ -55,92 +56,101 @@ const Signup = ({navigation}) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <SafeAreaView
           style={{display: 'flex', alignItems: 'center', paddingBottom: 30}}>
-          <Image
-            source={Logo}
-            resizeMode="contain"
-            style={{
-              width: 150,
-              // margin: 'auto',
-              marginTop: width * 0.01,
-            }}
-          />
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignSelf: 'flex-start',
-              marginBottom: 27,
-              marginLeft: width * 0.15,
-            }}>
-            <TouchableOpacity>
-              <Text
-                onPress={() => {
-                  navigation.replace('signin');
+          <KeyboardAvoidingView
+            behavior="position"
+            keyboardVerticalOffset={20}
+            style={styles.screen}>
+            <View style={{width, alignItems: 'center'}}>
+              <Image
+                source={Logo}
+                resizeMode="contain"
+                style={{
+                  width: 150,
+                  // margin: 'auto',
+                  marginTop: width * 0.01,
+                  alignItems: 'center',
                 }}
+              />
+            </View>
+            <View style={{width, alignItems: 'center'}}>
+              <View
                 style={{
-                  color: '#ECDBFA',
-                  fontSize: 20,
-                  paddingHorizontal: 10,
-                  opacity: 0.24,
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignSelf: 'flex-start',
+                  marginBottom: 27,
+                  marginLeft: width * 0.15,
                 }}>
-                Login
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Text
-                style={{
-                  color: '#ECDBFA',
-                  fontSize: 20,
-                  paddingHorizontal: 10,
-                  borderLeftColor: '#ECDBFA',
-                  borderLeftWidth: 1,
-                }}>
-                Signup
-              </Text>
-            </TouchableOpacity>
-          </View>
+                <TouchableOpacity>
+                  <Text
+                    onPress={() => {
+                      navigation.replace('signin');
+                    }}
+                    style={{
+                      color: '#ECDBFA',
+                      fontSize: 20,
+                      paddingHorizontal: 10,
+                      opacity: 0.24,
+                    }}>
+                    Login
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <Text
+                    style={{
+                      color: '#ECDBFA',
+                      fontSize: 20,
+                      paddingHorizontal: 10,
+                      borderLeftColor: '#ECDBFA',
+                      borderLeftWidth: 1,
+                    }}>
+                    Signup
+                  </Text>
+                </TouchableOpacity>
+              </View>
 
-          <Input
-            placeholder="First Name"
-            defaultValue={first_name}
-            onChangeText={setFirstName}
-          />
+              <Input
+                placeholder="First Name"
+                defaultValue={first_name}
+                onChangeText={setFirstName}
+              />
 
-          <View style={{marginTop: 27}}>
-            <Input
-              placeholder="Last Name"
-              defaultValue={last_name}
-              onChangeText={setLastName}
-            />
-          </View>
+              <View style={{marginTop: 27}}>
+                <Input
+                  placeholder="Last Name"
+                  defaultValue={last_name}
+                  onChangeText={setLastName}
+                />
+              </View>
 
-          <View style={{marginTop: 27}}>
-            <Input
-              placeholder="Phone Number"
-              tel
-              onChangeText={setPhone}
-              defaultValue={phone}
-            />
-          </View>
+              <View style={{marginTop: 27}}>
+                <Input
+                  placeholder="Phone Number"
+                  tel
+                  onChangeText={setPhone}
+                  defaultValue={phone}
+                />
+              </View>
 
-          <View style={{marginTop: 27}}>
-            <Input
-              placeholder="Email"
-              email
-              onChangeText={setEmail}
-              defaultValue={email}
-            />
-          </View>
+              <View style={{marginTop: 27}}>
+                <Input
+                  placeholder="Email"
+                  email
+                  onChangeText={setEmail}
+                  defaultValue={email}
+                />
+              </View>
 
-          <View style={{marginTop: 27}}>
-            <Input
-              placeholder="Password"
-              onChangeText={setPassword}
-              password
-              defaultValue={password}
-            />
-          </View>
-
+              <View style={{marginTop: 27}}>
+                <Input
+                  placeholder="Password"
+                  onChangeText={setPassword}
+                  password
+                  defaultValue={password}
+                />
+              </View>
+            </View>
+          </KeyboardAvoidingView>
           <View
             style={{
               marginLeft: width * 0.1,
@@ -282,7 +292,7 @@ const Signup = ({navigation}) => {
                   color: '#fff',
                   letterSpacing: 0.5,
                   fontStyle: 'italic',
-                  fontFamily: Fonts.Montserrat,
+                  fontFamily: 'Montserrat-Regular',
                 }}>
                 Continue With Gmail
               </Text>
@@ -294,6 +304,12 @@ const Signup = ({navigation}) => {
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center',
+  },
+});
 
 export default Signup;

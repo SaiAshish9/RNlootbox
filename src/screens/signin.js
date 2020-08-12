@@ -10,6 +10,8 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   ScrollView,
+  KeyboardAvoidingView,
+  ActivityIndicator
 } from 'react-native';
 import Logo from '../assets/launch_screen.png';
 import LinearGradient from 'react-native-linear-gradient';
@@ -20,13 +22,11 @@ import Modal from '../components/modal';
 
 const {height, width} = Dimensions.get('window');
 
-
-
 const Signin = ({navigation}) => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
 
-  const {signin, state,googleSignIn} = useContext(AuthContext);
+  const {signin, state, googleSignIn} = useContext(AuthContext);
 
   return (
     <TouchableWithoutFeedback
@@ -52,63 +52,68 @@ const Signin = ({navigation}) => {
                 marginTop: width * 0.01,
               }}
             />
-            <View
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignSelf: 'flex-start',
-                marginBottom: 27,
-                marginLeft: 12,
-              }}>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.replace('signin');
-                }}>
-                <Text
-                  style={{
-                    color: '#ECDBFA',
-                    fontSize: 20,
-                    paddingHorizontal: 10,
-                    borderRightColor: '#ECDBFA',
-                    borderRightWidth: 1,
-                    fontFamily: Fonts.Montserrat,
-                  }}>
-                  Login
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.push('signup');
-                }}>
-                <Text
-                  style={{
-                    color: '#ECDBFA',
-                    fontSize: 20,
-                    paddingHorizontal: 10,
-                    opacity: 0.24,
-                    fontFamily: Fonts.Montserrat,
-                  }}>
-                  Signup
-                </Text>
-              </TouchableOpacity>
-            </View>
 
             {state.error_msg ? <Modal msg={state.error_msg} /> : null}
+            <KeyboardAvoidingView
+              behavior="position"
+              keyboardVerticalOffset={50}
+              style={styles.screen}>
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignSelf: 'flex-start',
+                  marginBottom: 27,
+                  marginLeft: 12,
+                }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.replace('signin');
+                  }}>
+                  <Text
+                    style={{
+                      color: '#ECDBFA',
+                      fontSize: 20,
+                      paddingHorizontal: 10,
+                      borderRightColor: '#ECDBFA',
+                      borderRightWidth: 1,
+                      fontFamily: Fonts.Montserrat,
+                    }}>
+                    Login
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.push('signup');
+                  }}>
+                  <Text
+                    style={{
+                      color: '#ECDBFA',
+                      fontSize: 20,
+                      paddingHorizontal: 10,
+                      opacity: 0.24,
+                      fontFamily: Fonts.Montserrat,
+                    }}>
+                    Signup
+                  </Text>
+                </TouchableOpacity>
+              </View>
 
-            <Input
-              value={email}
-              onChangeText={setEmail}
-              placeholder="Phone Number Or Email"
-            />
-
-            <View style={{marginTop: 27}}>
               <Input
-                value={password}
-                onChangeText={setPassword}
-                placeholder="Password"
-                password
+                value={email}
+                onChangeText={setEmail}
+                placeholder="Phone Number Or Email"
               />
-            </View>
+
+              <View style={{marginTop: 27}}>
+                <Input
+                  value={password}
+                  onChangeText={setPassword}
+                  placeholder="Password"
+                  password
+                />
+              </View>
+            </KeyboardAvoidingView>
 
             <Text
               style={{
@@ -154,6 +159,7 @@ const Signin = ({navigation}) => {
                   }}>
                   LOGIN
                 </Text>
+                {/* <ActivityIndicator color="#ECDBFA" size="small" /> */}
               </LinearGradient>
             </TouchableWithoutFeedback>
 
@@ -194,7 +200,7 @@ const Signin = ({navigation}) => {
                     color: '#fff',
                     letterSpacing: 0.5,
                     fontStyle: 'italic',
-                    fontFamily: Fonts.Montserrat,
+                    fontFamily: 'Montserrat-Regular',
                   }}>
                   Continue With Gmail
                 </Text>
@@ -207,6 +213,10 @@ const Signin = ({navigation}) => {
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+  },
+});
 
 export default Signin;

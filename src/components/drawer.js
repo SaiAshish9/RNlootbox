@@ -22,7 +22,7 @@ const options = [
   },
   {
     name: 'My Orders',
-    path: 'home',
+    path: 'orderSuccess',
   },
   {
     name: "FAQ's",
@@ -63,7 +63,9 @@ const Drawer = ({navigation, progress}) => {
             paddingVertical: width * 0.1,
           }}>
           <TouchableOpacity
-            onPress={() => {}}
+            onPress={() => {
+              navigation.push('profile')
+            }}
             style={{
               marginTop: 18,
               width: width * 0.3,

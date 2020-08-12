@@ -30,7 +30,7 @@ const ContactUs = ({navigation}) => {
           style={{display: 'flex', alignItems: 'center', flexDirection: 'row'}}>
           <TouchableOpacity
             onPress={() => {
-              navigation.replace('language');
+              navigation.pop();
             }}>
             <Image
               style={{width: 48}}

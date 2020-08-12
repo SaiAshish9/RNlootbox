@@ -14,7 +14,7 @@ import OtpVerification from './src/screens/otpVerification';
 import Slider from './src/screens/slider';
 import Home from './src/screens/home';
 import CustomDrawerContent from './src/components/drawer';
-import {Dimensions, View,StatusBar} from 'react-native';
+import {Dimensions, View, StatusBar} from 'react-native';
 import {Provider as AuthProvider} from './src/api/contexts/authContext';
 import {setNavigator} from './src/api/contexts/navigationRef';
 import RNBootSplash from 'react-native-bootsplash';
@@ -22,6 +22,9 @@ import {Context as AuthContext} from './src/api/contexts/authContext';
 import BuildYourPc from './src/screens/buildYourPc';
 import ContactUs from './src/screens/contactUs';
 import Profile from './src/screens/profile';
+import OrderSuccess from './src/screens/orderSuccess';
+import Notifications from './src/screens/notifications';
+import ItemDesc from './src/screens/itemDesc';
 
 const {width, height} = Dimensions.get('window');
 
@@ -102,9 +105,6 @@ const App = () => {
         height,
         backgroundColor: '#261D2A',
       }}>
-        {/* <StatusBar
-        backgroundColor='#261D2A'
-        /> */}
       <NavigationContainer
         ref={(navigator) => {
           setNavigator(navigator);
@@ -115,8 +115,11 @@ const App = () => {
               open: closeConfig,
               close: closeConfig,
             },
+            gestureEnabled: true,
+            gestureDirection: 'horizontal',
+            ...TransitionPresets.SlideFromRightIOS,
           }}
-          initialRouteName="buildYourPc"
+          initialRouteName="otp"
           headerMode="none">
           <Stack.Screen name="language" component={Language} />
           <Stack.Screen name="auth" component={AuthScreen} />
@@ -126,6 +129,9 @@ const App = () => {
           <Stack.Screen name="buildYourPc" component={BuildYourPc} />
           <Stack.Screen name="contact" component={ContactUs} />
           <Stack.Screen name="profile" component={Profile} />
+          <Stack.Screen name="orderSuccess" component={OrderSuccess} />
+          <Stack.Screen name="notifications" component={Notifications} />
+          <Stack.Screen name="itemDesc" component={ItemDesc} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>

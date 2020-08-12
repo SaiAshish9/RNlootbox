@@ -8,14 +8,19 @@ const Input = ({
   onChangeText,
   editable,
   multiline,
+  onChange,
+  value,
   password,
   email,
   tel,
+  onSubmitEditing,
   onFocus,
   style,
   otp,
   inpStyle,
   defaultValue,
+  returnKeyType,
+  autoFocus,
 }) => (
   <LinearGradient
     start={{x: 0, y: 0}}
@@ -35,15 +40,20 @@ const Input = ({
     <TextInput
       secureTextEntry={password}
       placeholder={placeholder}
+      onChange={onChange}
+      value={value}
       multiline={multiline}
       onTouchStart={onFocus}
       placeholderTextColor="#ECDBFA"
       autoCompleteType={'off'}
       maxLength={otp && 1}
       autoCorrect={false}
+      autoFocus={autoFocus}
       onChangeText={onChangeText}
+      returnKeyType={returnKeyType}
       autoCapitalize="none"
       blurOnSubmit={true}
+      onSubmitEditing={onSubmitEditing}
       editable={editable}
       defaultValue={defaultValue}
       keyboardType={email ? 'email-address' : tel ? 'phone-pad' : 'default'}

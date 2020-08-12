@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'http://test-api.loot-box.com/api/',
+  baseURL: 'https://test-api.loot-box.co/api/',
 });
 instance.interceptors.request.use(
   async (config) => {
