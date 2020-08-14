@@ -57,23 +57,39 @@ const googleSignIn = (dispatch) => async () => {
     await GoogleSignin.configure();
     await GoogleSignin.hasPlayServices();
     const userInfo = await GoogleSignin.signIn();
+    const email = userInfo.user.email;
+    const firstName = userInfo.user.givenName;
+    const lastName = userInfo.user.familyName;
     const {
-      data: {
-        data: {token},
-      },
+      data: {data},
     } = await Api.post('app/user/check-google-user', {
-      email: userInfo.displayName,
+      // email:'sanjiv@gmail.com',
+      email,
       is_google: 1,
     });
-    if (token) {
+    if (data.is_available_user !== undefined ) {
+      navigate({
+        name: 'signup',
+        params: {
+          email,
+          firstName,
+          lastName,
+        },
+      });
+    } else if (data.token) {
       dispatch({
         type: 'signin',
         payload: {
-          token,
+          token:data.token,
         },
       });
-      navigate({name: 'otp'});
-      await AsyncStorage.setItem('token', token);
+      await AsyncStorage.setItem('token', data.token);
+      navigate({name: 'home'});
+    } else {
+      dispatch({
+        type: 'add_msg',
+        payload: 'Something went wrong with sign in',
+      });
     }
     await GoogleSignin.revokeAccess();
     await GoogleSignin.signOut();
@@ -82,6 +98,8 @@ const googleSignIn = (dispatch) => async () => {
       type: 'add_msg',
       payload: 'Something went wrong with sign in',
     });
+    await GoogleSignin.revokeAccess();
+    await GoogleSignin.signOut();
   }
 };
 

@@ -21,14 +21,18 @@ import {Context as AuthContext} from '../api/contexts/authContext';
 
 const {height, width} = Dimensions.get('window');
 
-const Signup = ({navigation}) => {
+const Signup = ({navigation, route}) => {
   const [selected, setSelected] = useState(false);
-  const {signup, addError, googleSignIn,state} = useContext(AuthContext);
+  const {signup, addError, googleSignIn, state} = useContext(AuthContext);
 
-  const [first_name, setFirstName] = useState('Shubham');
-  const [last_name, setLastName] = useState('Sharma');
+  const [first_name, setFirstName] = useState(
+    route.params ? route.params.firstName : null,
+  );
+  const [last_name, setLastName] = useState(
+    route.params ? route.params.lastName : null,
+  );
   const [phone, setPhone] = useState('97523476');
-  const [email, setEmail] = useState('Shubham@o2onelabs3.com');
+  const [email, setEmail] = useState(route.params ? route.params.email : null);
   const [password, setPassword] = useState('123456');
   const [user_type, setUserType] = useState(1);
   const [is_google, setIsGoogle] = useState(0);
@@ -113,14 +117,14 @@ const Signup = ({navigation}) => {
 
               <Input
                 placeholder="First Name"
-                // defaultValue={first_name}
+                defaultValue={first_name}
                 onChangeText={setFirstName}
               />
 
               <View style={{marginTop: 27}}>
                 <Input
                   placeholder="Last Name"
-                  // defaultValue={last_name}
+                  defaultValue={last_name}
                   onChangeText={setLastName}
                 />
               </View>
@@ -139,7 +143,7 @@ const Signup = ({navigation}) => {
                   placeholder="Email"
                   email
                   onChangeText={setEmail}
-                  // defaultValue={email}
+                  defaultValue={email}
                 />
               </View>
 
