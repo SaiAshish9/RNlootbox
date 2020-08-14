@@ -25,6 +25,7 @@ import Profile from './src/screens/profile';
 import OrderSuccess from './src/screens/orderSuccess';
 import Notifications from './src/screens/notifications';
 import ItemDesc from './src/screens/itemDesc';
+import ForgotPassword from './src/screens/forgotPassword';
 
 const {width, height} = Dimensions.get('window');
 
@@ -119,7 +120,7 @@ const App = () => {
             gestureDirection: 'horizontal',
             ...TransitionPresets.SlideFromRightIOS,
           }}
-          initialRouteName="otp"
+          initialRouteName="language"
           headerMode="none">
           <Stack.Screen name="language" component={Language} />
           <Stack.Screen name="auth" component={AuthScreen} />
@@ -132,6 +133,7 @@ const App = () => {
           <Stack.Screen name="orderSuccess" component={OrderSuccess} />
           <Stack.Screen name="notifications" component={Notifications} />
           <Stack.Screen name="itemDesc" component={ItemDesc} />
+          <Stack.Screen name="forgotPassword" component={ForgotPassword} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>

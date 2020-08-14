@@ -9,31 +9,33 @@ const reducer = (state, action) => {
     case 'signin':
       return {
         ...state,
-        error_msg: null,
+        msg: null,
         token: action.payload.token,
-        otp_verified: action.payload.verified === 'yes' ? true : false,
       };
 
-    case 'add_error':
+    case 'add_msg':
       return {
         ...state,
-        error_msg: action.payload,
+        msg: action.payload,
       };
     case 'signout':
       return {
-        otp_verified: false,
         token: null,
-        error_msg: null,
+        msg: null,
       };
     case 'remove_error':
       return {
         ...state,
-        error_msg: null,
+        msg: null,
       };
     case 'verify':
       return {
         ...state,
-        otp_verified: true,
+      };
+    case 'toggle_loading':
+      return {
+        ...state,
+        loading: !state.loading,
       };
     default:
       return state;
@@ -42,11 +44,10 @@ const reducer = (state, action) => {
 
 const checkUser = (dispatch) => async () => {
   const token = await AsyncStorage.getItem('token');
-  const verified = await AsyncStorage.getItem('verified');
   if (token && token.length > 0) {
     dispatch({
       type: 'signin',
-      payload: {token, verified},
+      payload: {token},
     });
   }
 };
@@ -56,26 +57,29 @@ const googleSignIn = (dispatch) => async () => {
     await GoogleSignin.configure();
     await GoogleSignin.hasPlayServices();
     const userInfo = await GoogleSignin.signIn();
-    const {data:{data:{token}}} = await Api.post('app/user/check-google-user', {
-      email:userInfo.displayName,
+    const {
+      data: {
+        data: {token},
+      },
+    } = await Api.post('app/user/check-google-user', {
+      email: userInfo.displayName,
       is_google: 1,
     });
-   if(token){
-     dispatch({
-       type: 'signin',
-       payload: {
-         token,
-         verified: 'no',
-       },
-     });
-     navigate({name:'otp'})
-    await AsyncStorage.setItem('token', token);
-   }
+    if (token) {
+      dispatch({
+        type: 'signin',
+        payload: {
+          token,
+        },
+      });
+      navigate({name: 'otp'});
+      await AsyncStorage.setItem('token', token);
+    }
     await GoogleSignin.revokeAccess();
     await GoogleSignin.signOut();
   } catch (err) {
     dispatch({
-      type: 'add_error',
+      type: 'add_msg',
       payload: 'Something went wrong with sign in',
     });
   }
@@ -83,6 +87,9 @@ const googleSignIn = (dispatch) => async () => {
 
 const signin = (dispatch) => async ({email, password}) => {
   try {
+    dispatch({
+      type: 'toggle_loading',
+    });
     const res = await Api.post('app/user/login', {
       email,
       password,
@@ -90,37 +97,46 @@ const signin = (dispatch) => async ({email, password}) => {
     if (res.data.data.token) {
       dispatch({
         type: 'signin',
-        payload: {token: res.data.data.token, verified: 'no'},
+        payload: {token: res.data.data.token},
       });
-      navigate({name: 'otp', params: {}});
       await AsyncStorage.setItem('token', res.data.data.token);
+      navigate({name: 'home'});
     }
+    dispatch({
+      type: 'toggle_loading',
+    });
   } catch (e) {
     dispatch({
-      type: 'add_error',
+      type: 'add_msg',
       payload: 'Something went wrong with sign in',
+    });
+    dispatch({
+      type: 'toggle_loading',
     });
   }
 };
 
-const verifyOtp = (dispatch) => async ({user_id, otp}) => {
+const verifyOtp = (dispatch) => async ({otp}) => {
   try {
-    // const res = await Api.post('app/user/verify-otp', {
-    //   user_id,
-    //   otp,
-    // });
-    // console.log(res);
-    // if (otp == 1234) {
-    await AsyncStorage.setItem('verified', 'yes');
-    dispatch({
-      type: 'verify',
+    const user_id = await AsyncStorage.getItem('userId');
+    const res = await Api.post('app/user/verify-otp', {
+      user_id: parseInt(user_id),
+      otp,
     });
-    navigate({name: 'slider'});
-    // }
+    console.log(user_id, res.data.success, otp);
+    if (res.data.success) {
+      await AsyncStorage.setItem('userId', '');
+      navigate({name: 'slider'});
+    } else {
+      dispatch({
+        type: 'add_msg',
+        payload: 'Invalid Otp',
+      });
+    }
   } catch (e) {
     console.log(e);
     dispatch({
-      type: 'add_error',
+      type: 'add_msg',
       payload: 'OTP verification failed',
     });
   }
@@ -128,28 +144,73 @@ const verifyOtp = (dispatch) => async ({user_id, otp}) => {
 
 const signup = (dispatch) => async (data) => {
   try {
+    dispatch({
+      type: 'toggle_loading',
+    });
     const res = await Api.post('app/user/register', data);
-    await AsyncStorage.setItem('verified', 'no');
-    console.log(res);
-    navigate({name: 'otp'});
+    if (res.data.data.is_otp_verified) {
+      navigate({name: 'slider'});
+    } else {
+      await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
+      navigate({name: 'otp'});
+    }
+    dispatch({
+      type: 'toggle_loading',
+    });
   } catch (e) {
     console.log(e);
     dispatch({
-      type: 'add_error',
+      type: 'add_msg',
       payload: 'Something went wrong with sign up',
+    });
+    dispatch({
+      type: 'toggle_loading',
+    });
+  }
+};
+
+const forgotPassword = (dispatch) => async (email) => {
+  try {
+    dispatch({
+      type: 'toggle_loading',
+    });
+    const res = await Api.post('app/user/forgot-password', {email});
+    if (res.data.success) {
+      dispatch({
+        type: 'add_msg',
+        payload: res.data.message,
+      });
+      dispatch({
+        type: 'toggle_loading',
+      });
+    } else {
+      dispatch({
+        type: 'add_msg',
+        payload: 'Something went wrong',
+      });
+      dispatch({
+        type: 'toggle_loading',
+      });
+    }
+  } catch (e) {
+    dispatch({
+      type: 'add_msg',
+      payload: 'Something went wrong',
+    });
+    dispatch({
+      type: 'toggle_loading',
     });
   }
 };
 
 const signout = (dispatch) => async () => {
   await AsyncStorage.removeItem('token');
-  await AsyncStorage.setItem('verified', 'no');
   dispatch({type: 'signout'});
   navigate({name: 'language'});
 };
 
 const addError = (dispatch) => (msg) =>
-  dispatch({type: 'add_error', payload: msg});
+  dispatch({type: 'add_msg', payload: msg});
 
 const removeError = (dispatch) => () => dispatch({type: 'remove_error'});
 
@@ -164,10 +225,11 @@ export const {Context, Provider} = createDataContext(
     verifyOtp,
     addError,
     googleSignIn,
+    forgotPassword,
   },
   {
     token: null,
-    error_msg: '',
-    otp_verified: false,
+    msg: '',
+    loading: false,
   },
 );

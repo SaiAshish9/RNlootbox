@@ -11,7 +11,7 @@ import {
   Keyboard,
   ScrollView,
   KeyboardAvoidingView,
-  ActivityIndicator
+  ActivityIndicator,
 } from 'react-native';
 import Logo from '../assets/launch_screen.png';
 import LinearGradient from 'react-native-linear-gradient';
@@ -53,7 +53,7 @@ const Signin = ({navigation}) => {
               }}
             />
 
-            {state.error_msg ? <Modal msg={state.error_msg} /> : null}
+            {state.msg ? <Modal msg={state.msg} /> : null}
             <KeyboardAvoidingView
               behavior="position"
               keyboardVerticalOffset={50}
@@ -115,17 +115,25 @@ const Signin = ({navigation}) => {
               </View>
             </KeyboardAvoidingView>
 
-            <Text
+            <TouchableOpacity
+              activeOpacity={0.6}
               style={{
                 alignSelf: 'flex-end',
-                marginTop: 15,
-                color: '#ECDBFA',
-                fontSize: 12,
-                fontWeight: 'bold',
-                fontFamily: Fonts.Montserrat,
+              }}
+              onPress={() => {
+                navigation.push('forgotPassword');
               }}>
-              Forgot Password?
-            </Text>
+              <Text
+                style={{
+                  marginTop: 15,
+                  color: '#ECDBFA',
+                  fontSize: 12,
+                  fontWeight: 'bold',
+                  fontFamily: Fonts.Montserrat,
+                }}>
+                Forgot Password?
+              </Text>
+            </TouchableOpacity>
 
             <TouchableWithoutFeedback
               onPress={() => {
@@ -149,17 +157,20 @@ const Signin = ({navigation}) => {
                   elevation: 100,
                   width: width * 0.75,
                 }}>
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                    color: '#fff',
-                    letterSpacing: 0.5,
-                    fontStyle: 'italic',
-                    fontFamily: Fonts.Montserrat,
-                  }}>
-                  LOGIN
-                </Text>
-                {/* <ActivityIndicator color="#ECDBFA" size="small" /> */}
+                {!state.loading ? (
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      color: '#fff',
+                      letterSpacing: 0.5,
+                      fontStyle: 'italic',
+                      fontFamily: Fonts.Montserrat,
+                    }}>
+                    LOGIN
+                  </Text>
+                ) : (
+                  <ActivityIndicator color="#ECDBFA" size="small" />
+                )}
               </LinearGradient>
             </TouchableWithoutFeedback>
 

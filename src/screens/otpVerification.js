@@ -11,12 +11,12 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import {Context as AuthContext} from '../api/contexts/authContext';
 import OtpInput from '../components/otp';
+import Modal from '../components/modal';
 
 const {height, width} = Dimensions.get('window');
 
 const Otp = ({navigation}) => {
-  const [user_id, setUserId] = useState(25);
-  const [otp, setOtp] = useState(1234);
+  const [otp, setOtp] = useState();
   const {verifyOtp, state} = useContext(AuthContext);
   const [count, setCount] = useState(0);
   useEffect(() => {
@@ -39,6 +39,7 @@ const Otp = ({navigation}) => {
         minHeight: height,
         overflowX: 'hidden',
       }}>
+      {state.msg ? <Modal msg={state.msg} /> : null}
       <ImageBackground
         style={{
           height: height,
@@ -51,7 +52,7 @@ const Otp = ({navigation}) => {
           style={{display: 'flex', alignItems: 'center', flexDirection: 'row'}}>
           <TouchableOpacity
             onPress={() => {
-              navigation.replace('language');
+              navigation.goBack();
             }}>
             <Image
               style={{width: 48}}
@@ -85,7 +86,7 @@ const Otp = ({navigation}) => {
             justifyContent: 'space-between',
             marginTop: 30,
           }}>
-          <OtpInput />
+          <OtpInput otp={otp} setOtp={setOtp} />
         </View>
         <Text
           style={{
@@ -117,9 +118,9 @@ const Otp = ({navigation}) => {
           <TouchableOpacity
             onPress={() => {
               if (count === 60) setCount(0);
-              // if(count!==0){
-              verifyOtp({user_id, otp});
-              // }
+              if (count !== 0) {
+                verifyOtp({otp});
+              }
             }}
             style={{
               width: '100%',

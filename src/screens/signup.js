@@ -11,6 +11,7 @@ import {
   ImageBackground,
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
+  ActivityIndicator,
 } from 'react-native';
 import Logo from '../assets/launch_screen.png';
 import LinearGradient from 'react-native-linear-gradient';
@@ -22,7 +23,7 @@ const {height, width} = Dimensions.get('window');
 
 const Signup = ({navigation}) => {
   const [selected, setSelected] = useState(false);
-  const {signup, addError, googleSignIn} = useContext(AuthContext);
+  const {signup, addError, googleSignIn,state} = useContext(AuthContext);
 
   const [first_name, setFirstName] = useState('Shubham');
   const [last_name, setLastName] = useState('Sharma');
@@ -72,6 +73,7 @@ const Signup = ({navigation}) => {
                 }}
               />
             </View>
+
             <View style={{width, alignItems: 'center'}}>
               <View
                 style={{
@@ -111,14 +113,14 @@ const Signup = ({navigation}) => {
 
               <Input
                 placeholder="First Name"
-                defaultValue={first_name}
+                // defaultValue={first_name}
                 onChangeText={setFirstName}
               />
 
               <View style={{marginTop: 27}}>
                 <Input
                   placeholder="Last Name"
-                  defaultValue={last_name}
+                  // defaultValue={last_name}
                   onChangeText={setLastName}
                 />
               </View>
@@ -128,7 +130,7 @@ const Signup = ({navigation}) => {
                   placeholder="Phone Number"
                   tel
                   onChangeText={setPhone}
-                  defaultValue={phone}
+                  // defaultValue={phone}
                 />
               </View>
 
@@ -137,7 +139,7 @@ const Signup = ({navigation}) => {
                   placeholder="Email"
                   email
                   onChangeText={setEmail}
-                  defaultValue={email}
+                  // defaultValue={email}
                 />
               </View>
 
@@ -146,22 +148,24 @@ const Signup = ({navigation}) => {
                   placeholder="Password"
                   onChangeText={setPassword}
                   password
-                  defaultValue={password}
+                  // defaultValue={password}
                 />
               </View>
             </View>
           </KeyboardAvoidingView>
+
           <View
             style={{
               marginLeft: width * 0.1,
               marginVertical: 10,
+              marginBottom: 30,
               display: 'flex',
               flexWrap: 'wrap',
               flexDirection: 'row',
               justifyContent: 'space-between',
             }}>
             <TouchableOpacity
-              onPress={() => {
+              onPressIn={() => {
                 setSelected(!selected);
               }}>
               <ImageBackground
@@ -216,8 +220,8 @@ const Signup = ({navigation}) => {
             </Text>
           </View>
 
-          <TouchableOpacity
-            onPress={() => {
+          <TouchableWithoutFeedback
+            onPressIn={() => {
               if (selected) {
                 signup(data);
               } else {
@@ -243,17 +247,21 @@ const Signup = ({navigation}) => {
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
-              <Text
-                style={{
-                  fontWeight: 'bold',
-                  color: '#fff',
-                  letterSpacing: 0.5,
-                  fontStyle: 'italic',
-                }}>
-                SIGN UP
-              </Text>
+              {!state.loading ? (
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    color: '#fff',
+                    letterSpacing: 0.5,
+                    fontStyle: 'italic',
+                  }}>
+                  SIGN UP
+                </Text>
+              ) : (
+                <ActivityIndicator color="#ECDBFA" size="small" />
+              )}
             </LinearGradient>
-          </TouchableOpacity>
+          </TouchableWithoutFeedback>
 
           <TouchableWithoutFeedback
             onPress={() => {
