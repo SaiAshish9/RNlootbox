@@ -67,7 +67,7 @@ const googleSignIn = (dispatch) => async () => {
       email,
       is_google: 1,
     });
-    if (data.is_available_user !== undefined ) {
+    if (data.is_available_user !== undefined) {
       navigate({
         name: 'signup',
         params: {
@@ -80,7 +80,7 @@ const googleSignIn = (dispatch) => async () => {
       dispatch({
         type: 'signin',
         payload: {
-          token:data.token,
+          token: data.token,
         },
       });
       await AsyncStorage.setItem('token', data.token);
@@ -157,6 +157,35 @@ const verifyOtp = (dispatch) => async ({otp}) => {
       type: 'add_msg',
       payload: 'OTP verification failed',
     });
+  }
+};
+
+const resendOtp = (dispatch) => async () => {
+  try {
+    const user_id = await AsyncStorage.getItem('userId');
+    const res = await Api.post('app/user/resend-otp', {
+      user_id: parseInt(user_id),
+    });
+    console.log(res.data.success);
+    if (res.data.success) {
+      // dispatch({
+      //   type: 'add_msg',
+      //   payload: res.data.message,
+      // });
+      return true;
+    } else {
+      dispatch({
+        type: 'add_msg',
+        payload: 'OTP not sent',
+      });
+      return false;
+    }
+  } catch (e) {
+    dispatch({
+      type: 'add_msg',
+      payload: 'Some error occurred',
+    });
+    return false;
   }
 };
 
@@ -241,6 +270,7 @@ export const {Context, Provider} = createDataContext(
     signout,
     checkUser,
     verifyOtp,
+    resendOtp,
     addError,
     googleSignIn,
     forgotPassword,

@@ -17,7 +17,7 @@ const {height, width} = Dimensions.get('window');
 
 const Otp = ({navigation}) => {
   const [otp, setOtp] = useState();
-  const {verifyOtp, state} = useContext(AuthContext);
+  const {verifyOtp, state, resendOtp} = useContext(AuthContext);
   const [count, setCount] = useState(0);
   useEffect(() => {
     let timer;
@@ -116,10 +116,17 @@ const Otp = ({navigation}) => {
             width: width * 0.75,
           }}>
           <TouchableOpacity
-            onPress={() => {
-              if (count === 60) setCount(0);
-              if (count !== 0) {
-                verifyOtp({otp});
+            onPress={async () => {
+              const res = await resendOtp();
+              if (count === 60) {
+                if (res) {
+                  setCount(0);
+                } else {
+                  setCount(60);
+                }
+              }
+              if (count !== 0 && count !== 60) {
+                await verifyOtp({otp});
               }
             }}
             style={{
