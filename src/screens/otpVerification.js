@@ -50,7 +50,7 @@ const Otp = ({navigation}) => {
         source={require('../assets/dottedBackground.png')}>
         <View
           style={{display: 'flex', alignItems: 'center', flexDirection: 'row'}}>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => {
               navigation.goBack();
             }}>
@@ -59,8 +59,8 @@ const Otp = ({navigation}) => {
               resizeMode="contain"
               source={require('../assets/back.png')}
             />
-          </TouchableOpacity>
-          <Text
+          </TouchableOpacity> */}
+          {/* <Text
             style={{
               fontStyle: 'italic',
               fontSize: 12,
@@ -68,15 +68,16 @@ const Otp = ({navigation}) => {
               marginLeft: 10,
             }}>
             VERIFY OTP
-          </Text>
+          </Text> */}
         </View>
         <Text
           style={{
             fontSize: 24,
             color: '#ECDBFA',
             lineHeight: 28,
+            marginTop:20
           }}>
-          Verify OTP sent to your mobile number
+          Verification OTP sent to your mobile number
         </Text>
         <View
           style={{

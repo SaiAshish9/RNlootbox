@@ -1,16 +1,15 @@
 import React from 'react';
-import {Dimensions} from 'react-native'
+import {Dimensions} from 'react-native';
 import {SvgXml} from 'react-native-svg';
 
-const {width, height} = Dimensions.get('window')
+const {width, height} = Dimensions.get('window');
 
-export default ({text}) =>{
-
-const xml = `
+export default ({text, x}) => {
+  const xml = `
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="${
-  width * 0.8
-}px" height="100px" viewBox="0 0 320 70" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    width * 0.8
+  }px" height="100px" viewBox="0 0 320 70" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <title>Group 9</title>
     <defs>
         <linearGradient x1="104.414637%" y1="50.8204837%" x2="0%" y2="48.8390023%" id="linearGradient-1">
@@ -31,10 +30,14 @@ const xml = `
                     <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
                     <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
                 </g>
-                <g id="Group-14-Copy" transform="translate(82.000000, 15.400000)" fill="#FFFFFF" font-family="Avenir-Black, Avenir" font-size="16" font-weight="700" line-spacing="16" opacity="0.870000005">
+                <g id="Group-14-Copy" transform="translate(82.000000, 15.400000)"
+                font-style="italic"
+                fill="#FFFFFF" font-family="Avenir-Black, Avenir" font-size="16" font-weight="700" line-spacing="16" opacity="0.870000005">
                     <g id="Group-2-Copy-2" transform="translate(0.135120, 0.000000)">
                         <text id="Build-Your-PC">
-                            <tspan x="15.901504017" y="13.3199707">${text?text:'BUILD YOUR PC'}</tspan>
+                            <tspan x=${x ? x : '15.901504017'} y="13.3199707">${
+    text ? text : 'BUILD YOUR PC'
+  }</tspan>
                         </text>
                     </g>
                 </g>
@@ -44,5 +47,5 @@ const xml = `
 </svg>
 `;
 
-return <SvgXml xml={xml} width="100%" />
-} 
+  return <SvgXml xml={xml} width="100%" />;
+};

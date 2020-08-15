@@ -25,6 +25,7 @@ const {height, width} = Dimensions.get('window');
 const ForgotPassword = ({navigation}) => {
   const [email, setEmail] = useState(null);
   const {state, forgotPassword} = useContext(AuthContext);
+  const [validationError, setValidationError] = useState(null);
 
   return (
     <TouchableWithoutFeedback
@@ -52,7 +53,11 @@ const ForgotPassword = ({navigation}) => {
               }}
             />
 
-            {state.msg ? <Modal msg={state.msg} /> : null}
+            {state.msg ? (
+              <Modal msg={state.msg} hideBtn />
+            ) : validationError ? (
+              <Modal msg={validationError}  />
+            ) : null}
             <KeyboardAvoidingView
               behavior="position"
               keyboardVerticalOffset={50}
@@ -61,12 +66,17 @@ const ForgotPassword = ({navigation}) => {
                 value={email}
                 onChangeText={setEmail}
                 placeholder="Email"
+                email
               />
             </KeyboardAvoidingView>
 
             <TouchableWithoutFeedback
-              onPress={() => {
-                forgotPassword(email);
+              onPressIn={() => {
+                if (!email) {
+                  setValidationError('Email Address Is Required');
+                } else {
+                  forgotPassword(email);
+                }
               }}
               style={{
                 width: '100%',

@@ -93,10 +93,14 @@ const HomeScreen = () => (
 const App = () => {
   const {checkUser} = useContext(AuthContext);
 
-  useEffect(() => {
+  const check = async () => {
     RNBootSplash.show();
-    checkUser();
-    RNBootSplash.hide({duration: 250});
+    await checkUser();
+    await RNBootSplash.hide({duration: 250});
+  };
+
+  useEffect(() => {
+    check();
   }, []);
 
   return (

@@ -19,12 +19,14 @@ import Input from '../components/input';
 import {Fonts} from '../utils/Fonts';
 import {Context as AuthContext} from '../api/contexts/authContext';
 import Modal from '../components/modal';
+import Btn from './btn';
 
 const {height, width} = Dimensions.get('window');
 
 const Signin = ({navigation}) => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
+  const [validationError, setValidationError] = useState(null);
 
   const {signin, state, googleSignIn} = useContext(AuthContext);
 
@@ -53,7 +55,11 @@ const Signin = ({navigation}) => {
               }}
             />
 
-            {state.msg ? <Modal msg={state.msg} /> : null}
+            {state.msg ? (
+              <Modal msg={state.msg} />
+            ) : validationError ? (
+              <Modal msg={validationError} />
+            ) : null}
             <KeyboardAvoidingView
               behavior="position"
               keyboardVerticalOffset={50}
@@ -135,14 +141,24 @@ const Signin = ({navigation}) => {
               </Text>
             </TouchableOpacity>
 
-            <TouchableWithoutFeedback
+            <TouchableOpacity
               onPress={() => {
-                signin({email, password});
+                if (email && password) {
+                  signin({email, password});
+                } else {
+                  if (!email) {
+                    setValidationError('Email address is required');
+                  }
+                  if (!password) {
+                    setValidationError('Password is required');
+                  }
+                }
               }}
               style={{
                 width: '100%',
+                height: height * 0.1,
               }}>
-              <LinearGradient
+              {/* <LinearGradient
                 start={{x: 0, y: 1}}
                 end={{x: 1, y: 0}}
                 colors={['#C01C8A', '#865CF4']}
@@ -171,8 +187,20 @@ const Signin = ({navigation}) => {
                 ) : (
                   <ActivityIndicator color="#ECDBFA" size="small" />
                 )}
-              </LinearGradient>
-            </TouchableWithoutFeedback>
+              </LinearGradient> */}
+              {!state.loading ? (
+                <Btn text="LOGIN" x="54" />
+              ) : (
+                <>
+                  <Btn text={' '} x="54" />
+                  <ActivityIndicator
+                    color="#ECDBFA"
+                    size="small"
+                    style={{bottom: 63}}
+                  />
+                </>
+              )}
+            </TouchableOpacity>
 
             <TouchableWithoutFeedback
               onPress={() => {
@@ -195,7 +223,10 @@ const Signin = ({navigation}) => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   borderWidth: 1.5,
-                  marginTop: 18,
+                  // position: 'absolute',
+                  // top: height * 0.7,
+                  // bottom: state.loading? 30:0,
+                  marginTop: 20,
                   elevation: 100,
                   width: width * 0.75,
                 }}>

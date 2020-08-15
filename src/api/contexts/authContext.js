@@ -49,6 +49,13 @@ const checkUser = (dispatch) => async () => {
       type: 'signin',
       payload: {token},
     });
+  } else {
+    const userId = await AsyncStorage.getItem('userId');
+    if (userId && userId.length > 0) {
+      navigate({name: 'otp'});
+    }else {
+      navigate({name: 'language'});
+    }
   }
 };
 
@@ -88,7 +95,7 @@ const googleSignIn = (dispatch) => async () => {
     } else {
       dispatch({
         type: 'add_msg',
-        payload: 'Something went wrong with sign in',
+        payload: 'Something went wrong ',
       });
     }
     await GoogleSignin.revokeAccess();
@@ -96,7 +103,7 @@ const googleSignIn = (dispatch) => async () => {
   } catch (err) {
     dispatch({
       type: 'add_msg',
-      payload: 'Something went wrong with sign in',
+      payload: 'Something went wrong ',
     });
     await GoogleSignin.revokeAccess();
     await GoogleSignin.signOut();
@@ -126,7 +133,7 @@ const signin = (dispatch) => async ({email, password}) => {
   } catch (e) {
     dispatch({
       type: 'add_msg',
-      payload: 'Something went wrong with sign in',
+      payload: 'Something went wrong ',
     });
     dispatch({
       type: 'toggle_loading',
@@ -208,7 +215,7 @@ const signup = (dispatch) => async (data) => {
     console.log(e);
     dispatch({
       type: 'add_msg',
-      payload: 'Something went wrong with sign up',
+      payload: 'Something went wrong ',
     });
     dispatch({
       type: 'toggle_loading',

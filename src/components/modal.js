@@ -6,15 +6,13 @@ import {
   Text,
   TouchableOpacity,
   View,
+  TouchableWithoutFeedback,
 } from 'react-native';
-import {Context as AuthContext} from '../api/contexts/authContext'
+import {Context as AuthContext} from '../api/contexts/authContext';
 
-
-const App = ({msg}) => {
-  
-    const [modalVisible, setModalVisible] = useState(true);
-    const {removeError} = useContext(AuthContext)
-
+const App = ({msg, hideBtn}) => {
+  const [modalVisible, setModalVisible] = useState(true);
+  const {removeError} = useContext(AuthContext);
 
   return (
     <View style={styles.centeredView}>
@@ -22,22 +20,30 @@ const App = ({msg}) => {
         animationType="slide"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-        }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>{msg}</Text>
-            <TouchableOpacity
-              style={{...styles.openButton}}
-              onPress={() => {
-                setModalVisible(!modalVisible);
-                removeError()
-              }}>
-              <Text style={styles.textStyle}>Try Again</Text>
-            </TouchableOpacity>
+        onRequestClose={() => {}}>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            // if (hideBtn) {
+              setModalVisible(!modalVisible);
+              removeError();
+            // }
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>{msg}</Text>
+              {!hideBtn && (
+                <TouchableOpacity
+                  style={{...styles.openButton}}
+                  onPress={() => {
+                    setModalVisible(!modalVisible);
+                    removeError();
+                  }}>
+                  <Text style={styles.textStyle}>Try Again</Text>
+                </TouchableOpacity>
+              )}
+            </View>
           </View>
-        </View>
+        </TouchableWithoutFeedback>
       </Modal>
     </View>
   );
@@ -66,7 +72,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5,
+    // elevation: 5,
   },
   textStyle: {
     color: '#fff',

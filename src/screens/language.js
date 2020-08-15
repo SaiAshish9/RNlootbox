@@ -14,8 +14,8 @@ import {Context as AuthContext} from '../api/contexts/authContext';
 const {height, width} = Dimensions.get('window');
 
 const Language = ({navigation}) => {
-  const {state,checkUser} = useContext(AuthContext);
-   
+  const {state, checkUser} = useContext(AuthContext);
+
   return (
     <LinearGradient
       colors={['#2A2D39', '#261D2A']}
@@ -46,15 +46,13 @@ const Language = ({navigation}) => {
             </Text>
             <TouchableOpacity
               onPress={() => {
-                  {
-                    state.token
-                      ? state.otp_verified
-                        ? navigation.replace('home')
-                        : navigation.replace('otp')
-                      : navigation.replace('auth', {
-                          screen: 'signin',
-                        });
-                  }
+                {
+                  state.token
+                    ? navigation.replace('home')
+                    : navigation.replace('auth', {
+                        screen: 'signin',
+                      });
+                }
               }}>
               <LinearGradient
                 start={{x: 0, y: 0}}
@@ -93,11 +91,10 @@ const Language = ({navigation}) => {
             <TouchableOpacity
               onPress={() => {
                 {
-                  state.token 
-                    ?
-                    state.otp_verified?
-                    navigation.replace('home'):
-                    navigation.replace('otp')
+                  state.token
+                    ? state.otp_verified
+                      ? navigation.replace('home')
+                      : navigation.replace('otp')
                     : navigation.replace('auth', {
                         screen: 'signin',
                       });
