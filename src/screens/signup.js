@@ -170,29 +170,34 @@ const Signup = ({navigation, route}) => {
                 justifyContent: 'space-between',
               }}>
               <TouchableOpacity
-                onPressIn={() => {
+                onPress={() => {
                   setSelected(!selected);
                 }}>
-                <ImageBackground
-                  source={require('../assets/tiltedPurple.png')}
-                  style={{
-                    height: height * 0.04,
-                    width: width * 0.12,
-                    marginRight: 10,
-                    marginTop: 10,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}>
-                  {selected && (
-                    <Icon
-                      name="check"
-                      color="rgba(184,37,154,0.8)"
-                      size={15}
-                      solid
-                    />
-                  )}
-                </ImageBackground>
+                {selected ? (
+                  <ImageBackground
+                    source={require('../assets/ic_check.png')}
+                    style={{
+                      height: height * 0.04,
+                      width: width * 0.12,
+                      marginRight: 10,
+                      marginTop: 10,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}></ImageBackground>
+                ) : (
+                  <ImageBackground
+                    source={require('../assets/ic_check_outline.png')}
+                    style={{
+                      height: height * 0.04,
+                      width: width * 0.12,
+                      marginRight: 10,
+                      marginTop: 10,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}></ImageBackground>
+                )}
               </TouchableOpacity>
 
               <Text
@@ -225,8 +230,8 @@ const Signup = ({navigation, route}) => {
               </Text>
             </View>
 
-            <TouchableWithoutFeedback
-              onPressIn={() => {
+            <TouchableOpacity
+              onPress={() => {
                 if (
                   selected &&
                   first_name &&
@@ -260,7 +265,8 @@ const Signup = ({navigation, route}) => {
               }}
               style={{
                 height: height * 0.09,
-                marginTop: 25,
+                marginTop: 15,
+                marginBottom:20
               }}>
               <LinearGradient
                 start={{x: 0, y: 1}}
@@ -290,7 +296,7 @@ const Signup = ({navigation, route}) => {
                   <ActivityIndicator color="#ECDBFA" size="small" />
                 )}
               </LinearGradient>
-            </TouchableWithoutFeedback>
+            </TouchableOpacity>
 
             <TouchableWithoutFeedback
               onPress={() => {
@@ -299,6 +305,7 @@ const Signup = ({navigation, route}) => {
               style={{
                 width: '100%',
                 height: height * 0.09,
+                // marginTop:30,
                 display: 'flex',
                 marginBottom: height * 0.2,
               }}>
