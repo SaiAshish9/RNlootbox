@@ -39,7 +39,7 @@ const Otp = ({navigation}) => {
         minHeight: height,
         overflowX: 'hidden',
       }}>
-      {state.msg ? <Modal msg={state.msg} /> : null}
+      {state.msg ? <Modal msg={state.msg} hideBtn /> : null}
       <ImageBackground
         style={{
           height: height,
@@ -118,8 +118,8 @@ const Otp = ({navigation}) => {
           }}>
           <TouchableOpacity
             onPress={async () => {
-              const res = await resendOtp();
               if (count === 60) {
+                const res = await resendOtp();
                 if (res) {
                   setCount(0);
                 } else {

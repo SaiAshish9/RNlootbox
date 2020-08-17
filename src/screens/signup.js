@@ -238,10 +238,26 @@ const Signup = ({navigation, route}) => {
                   last_name &&
                   email &&
                   phone &&
-                  password
+                  password &&
+                  /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) &&
+                  password.length >= 6 &&
+                  phone.length >= 10 &&
+                  phone.length <= 15
                 ) {
                   signup(data);
                 } else {
+                  if (password && password.length < 6) {
+                    addError('Password must be at least 6 characters');
+                  }
+                  if (
+                    email &&
+                    !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+                  ) {
+                    addError('Invalid Email Address');
+                  }
+                  if (!(phone.length >= 10 && phone.length <= 15)) {
+                    addError('Phone Number Length should be between 10 and 15');
+                  }
                   if (!selected) {
                     addError('Agree to our terms and conditions');
                   }
@@ -266,7 +282,7 @@ const Signup = ({navigation, route}) => {
               style={{
                 height: height * 0.09,
                 marginTop: 15,
-                marginBottom:20
+                marginBottom: 20,
               }}>
               <LinearGradient
                 start={{x: 0, y: 1}}

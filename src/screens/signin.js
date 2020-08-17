@@ -56,10 +56,11 @@ const Signin = ({navigation}) => {
             />
 
             {state.msg ? (
-              <Modal msg={state.msg} />
+              <Modal msg={state.msg} hideBtn />
             ) : validationError ? (
               <Modal msg={validationError} />
             ) : null}
+
             <KeyboardAvoidingView
               behavior="position"
               keyboardVerticalOffset={50}
@@ -143,9 +144,24 @@ const Signin = ({navigation}) => {
 
             <TouchableOpacity
               onPress={() => {
-                if (email && password) {
+                if (
+                  email &&
+                  password &&
+                  password.length >= 6 &&
+                  /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+                ) {
                   signin({email, password});
                 } else {
+                  if (
+                    !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+                  ) {
+                    setValidationError('Invalid Email address');
+                  }
+                  if (!(password.length >= 6)) {
+                    setValidationError(
+                      'Password must be at least 6 characters',
+                    );
+                  }
                   if (!email) {
                     setValidationError('Email address is required');
                   }

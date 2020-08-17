@@ -56,7 +56,7 @@ const ForgotPassword = ({navigation}) => {
             {state.msg ? (
               <Modal msg={state.msg} hideBtn />
             ) : validationError ? (
-              <Modal msg={validationError}  />
+              <Modal msg={validationError} />
             ) : null}
             <KeyboardAvoidingView
               behavior="position"
@@ -74,7 +74,16 @@ const ForgotPassword = ({navigation}) => {
               onPressIn={() => {
                 if (!email) {
                   setValidationError('Email Address Is Required');
-                } else {
+                }
+                if (
+                  !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+                ) {
+                  setValidationError(' Invalid Email Address');
+                }
+                if (
+                  email &&
+                  /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+                ) {
                   forgotPassword(email);
                 }
               }}

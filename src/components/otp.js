@@ -36,7 +36,8 @@ const Otp = ({otp, setOtp}) => {
   const [c, setC] = useState('');
   const [d, setD] = useState('');
   const x = [a, b, c, d];
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
+  const [direction, setDirection] = useState('forward');
 
   return (
     <>
@@ -49,7 +50,9 @@ const Otp = ({otp, setOtp}) => {
           maxLength={1}
           onChangeText={(value) => {
             setA(value);
-            if (value.length === 1) pin2ref.current.focus();
+            if (value.length === 1 && b.length === 0) {
+              pin2ref.current.focus();
+            }
           }}
           autoCapitalize="none"
           blurOnSubmit={true}
@@ -66,7 +69,8 @@ const Otp = ({otp, setOtp}) => {
           ref={pin2ref}
           onChangeText={(value) => {
             setB(value);
-            if (value.length === 1) pin3ref.current.focus();
+            if (value.length === 1 && c.length === 0) pin3ref.current.focus();
+            if (value.length === 0 && a.length === 1) pin1ref.current.focus();
           }}
           maxLength={1}
           autoCapitalize="none"
@@ -84,7 +88,12 @@ const Otp = ({otp, setOtp}) => {
           ref={pin3ref}
           onChangeText={(value) => {
             setC(value);
-            if (value.length === 1) pin4ref.current.focus();
+            if (value.length === 1 && d.length === 0 && direction === 'forward')
+              pin4ref.current.focus();
+            if (value.length === 0 && b.length === 1) {
+              pin2ref.current.focus();
+              setDirection('forward');
+            }
           }}
           maxLength={1}
           autoCapitalize="none"
@@ -105,7 +114,17 @@ const Otp = ({otp, setOtp}) => {
           blurOnSubmit={true}
           autoCorrect={false}
           keyboardType="phone-pad"
-          onChangeText={setD}
+          onChangeText={(value) => {
+            if (
+              value.length === 0 &&
+              c.length > 0 &&
+              b.length > 0 &&
+              a.length > 0
+            ) {
+              pin3ref.current.focus();
+              setDirection('backward');
+            }
+          }}
           onSubmitEditing={() => {
             setOtp(+`${a}${b}${c}${d}`);
             // navigation.replace('slider');

@@ -50,12 +50,12 @@ const checkUser = (dispatch) => async () => {
       payload: {token},
     });
   } else {
-    const userId = await AsyncStorage.getItem('userId');
-    if (userId && userId.length > 0) {
-      navigate({name: 'otp'});
-    }else {
-      navigate({name: 'language'});
-    }
+    // const userId = await AsyncStorage.getItem('userId');
+    // if (userId && userId.length > 0) {
+    // navigate({name: 'otp'});
+    // }else {
+    navigate({name: 'otp'});
+    // }
   }
 };
 
@@ -126,6 +126,13 @@ const signin = (dispatch) => async ({email, password}) => {
       });
       await AsyncStorage.setItem('token', res.data.data.token);
       navigate({name: 'home'});
+    } else if (res.data.data.is_otp_verified === false) {
+      await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
+      await navigate({name: 'otp'});
+      dispatch({
+        type: 'add_msg',
+        payload: 'OTP not verified yet.We sent you an otp.Please verify it first !',
+      });
     }
     dispatch({
       type: 'toggle_loading',
@@ -133,7 +140,7 @@ const signin = (dispatch) => async ({email, password}) => {
   } catch (e) {
     dispatch({
       type: 'add_msg',
-      payload: 'Something went wrong ',
+      payload: 'These credentials do not match our records.',
     });
     dispatch({
       type: 'toggle_loading',
@@ -155,14 +162,14 @@ const verifyOtp = (dispatch) => async ({otp}) => {
     } else {
       dispatch({
         type: 'add_msg',
-        payload: 'Invalid Otp',
+        payload: 'Invalid OTP',
       });
     }
   } catch (e) {
     console.log(e);
     dispatch({
       type: 'add_msg',
-      payload: 'OTP verification failed',
+      payload: 'Invalid OTP',
     });
   }
 };
@@ -175,10 +182,10 @@ const resendOtp = (dispatch) => async () => {
     });
     console.log(res.data.success);
     if (res.data.success) {
-      // dispatch({
-      //   type: 'add_msg',
-      //   payload: res.data.message,
-      // });
+      dispatch({
+        type: 'add_msg',
+        payload: 'OTP send successfully',
+      });
       return true;
     } else {
       dispatch({
@@ -240,7 +247,7 @@ const forgotPassword = (dispatch) => async (email) => {
     } else {
       dispatch({
         type: 'add_msg',
-        payload: 'Something went wrong',
+        payload: 'The selected email is invalid',
       });
       dispatch({
         type: 'toggle_loading',
@@ -249,7 +256,7 @@ const forgotPassword = (dispatch) => async (email) => {
   } catch (e) {
     dispatch({
       type: 'add_msg',
-      payload: 'Something went wrong',
+      payload: 'The selected email is invalid',
     });
     dispatch({
       type: 'toggle_loading',

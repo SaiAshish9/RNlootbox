@@ -24,23 +24,25 @@ const App = ({msg, hideBtn}) => {
         <TouchableWithoutFeedback
           onPress={() => {
             // if (hideBtn) {
-              setModalVisible(!modalVisible);
-              removeError();
+            setModalVisible(!modalVisible);
+            removeError();
             // }
           }}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Text style={styles.modalText}>{msg}</Text>
-              {!hideBtn && (
-                <TouchableOpacity
-                  style={{...styles.openButton}}
-                  onPress={() => {
-                    setModalVisible(!modalVisible);
-                    removeError();
-                  }}>
-                  <Text style={styles.textStyle}>Try Again</Text>
-                </TouchableOpacity>
-              )}
+              {/* {!hideBtn && ( */}
+              <TouchableOpacity
+                style={{...styles.openButton}}
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                  removeError();
+                }}>
+                <Text style={styles.textStyle}>
+                  {!hideBtn ? 'Try Again' : "Okay"}
+                </Text>
+              </TouchableOpacity>
+              {/* )} */}
             </View>
           </View>
         </TouchableWithoutFeedback>
