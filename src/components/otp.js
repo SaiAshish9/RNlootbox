@@ -38,6 +38,7 @@ const Otp = ({otp, setOtp}) => {
   const x = [a, b, c, d];
   // const navigation = useNavigation();
   const [direction, setDirection] = useState('forward');
+  const [track, setTrack] = useState([]);
 
   return (
     <>
@@ -54,6 +55,9 @@ const Otp = ({otp, setOtp}) => {
               pin2ref.current.focus();
             }
           }}
+          onSubmitEditing={() => {
+            pin2ref.current.focus();
+          }}
           autoCapitalize="none"
           blurOnSubmit={true}
           autoCorrect={false}
@@ -67,10 +71,24 @@ const Otp = ({otp, setOtp}) => {
           autoCompleteType={'off'}
           returnKeyType="next"
           ref={pin2ref}
+          onSubmitEditing={() => {
+            pin3ref.current.focus();
+          }}
+          onKeyPress={() => {
+            if (b.length === 1) {
+              if (!track.includes(2)) {
+                setTrack([...track, 2]);
+              } else {
+                pin1ref.current.focus();
+                setTrack(track.filter((x) => x !== 2));
+              }
+            } else {
+              pin1ref.current.focus();
+            }
+          }}
           onChangeText={(value) => {
             setB(value);
             if (value.length === 1 && c.length === 0) pin3ref.current.focus();
-            if (value.length === 0 && a.length === 1) pin1ref.current.focus();
           }}
           maxLength={1}
           autoCapitalize="none"
@@ -86,19 +104,29 @@ const Otp = ({otp, setOtp}) => {
           autoCompleteType={'off'}
           returnKeyType="next"
           ref={pin3ref}
+          onSubmitEditing={() => {
+            pin4ref.current.focus();
+          }}
           onChangeText={(value) => {
             setC(value);
             if (value.length === 1 && d.length === 0 && direction === 'forward')
               pin4ref.current.focus();
-            if (value.length === 0 && b.length === 1) {
+          }}
+          onKeyPress={() => {
+            if (c.length === 1) {
+              if (!track.includes(3)) {
+                setTrack([...track, 3]);
+              } else {
+                pin2ref.current.focus();
+                setTrack(track.filter((x) => x !== 3));
+              }
+            } else {
               pin2ref.current.focus();
-              setDirection('forward');
             }
           }}
           maxLength={1}
           autoCapitalize="none"
           blurOnSubmit={true}
-          returnKeyType="next"
           autoCorrect={false}
           keyboardType="phone-pad"
           style={styles.inp}
@@ -114,17 +142,19 @@ const Otp = ({otp, setOtp}) => {
           blurOnSubmit={true}
           autoCorrect={false}
           keyboardType="phone-pad"
-          onChangeText={(value) => {
-            if (
-              value.length === 0 &&
-              c.length > 0 &&
-              b.length > 0 &&
-              a.length > 0
-            ) {
+          onKeyPress={() => {
+            if (d.length === 1) {
+              if (!track.includes(4)) {
+                setTrack([...track, 4]);
+              } else {
+                pin3ref.current.focus();
+                setTrack(track.filter((x) => x !== 4));
+              }
+            } else {
               pin3ref.current.focus();
-              setDirection('backward');
             }
           }}
+          onChangeText={setD}
           onSubmitEditing={() => {
             setOtp(+`${a}${b}${c}${d}`);
             // navigation.replace('slider');

@@ -54,7 +54,7 @@ const checkUser = (dispatch) => async () => {
     // if (userId && userId.length > 0) {
     // navigate({name: 'otp'});
     // }else {
-    navigate({name: 'otp'});
+    navigate({name: 'language'});
     // }
   }
 };
