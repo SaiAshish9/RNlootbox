@@ -154,7 +154,12 @@ const Otp = ({otp, setOtp}) => {
               pin3ref.current.focus();
             }
           }}
-          onChangeText={setD}
+          onChangeText={(value)=>{
+            setD(value)
+            if(value && value.length === 1){
+              setOtp(+`${a}${b}${c}${value}`)
+            }
+          }}
           onSubmitEditing={() => {
             setOtp(+`${a}${b}${c}${d}`);
             // navigation.replace('slider');

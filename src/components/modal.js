@@ -12,7 +12,7 @@ import {Context as AuthContext} from '../api/contexts/authContext';
 
 const App = ({msg, hideBtn}) => {
   const [modalVisible, setModalVisible] = useState(true);
-  const {removeError} = useContext(AuthContext);
+  const {removeError,setValidationError} = useContext(AuthContext);
 
   return (
     <View style={styles.centeredView}>
@@ -26,6 +26,7 @@ const App = ({msg, hideBtn}) => {
             // if (hideBtn) {
             setModalVisible(!modalVisible);
             removeError();
+            setValidationError(null)
             // }
           }}>
           <View style={styles.centeredView}>
@@ -39,7 +40,7 @@ const App = ({msg, hideBtn}) => {
                   removeError();
                 }}>
                 <Text style={styles.textStyle}>
-                  {!hideBtn ? 'Try Again' : "Okay"}
+                  {!hideBtn ? 'Try Again' : "OK"}
                 </Text>
               </TouchableOpacity>
               {/* )} */}

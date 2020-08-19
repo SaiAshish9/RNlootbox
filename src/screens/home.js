@@ -85,7 +85,7 @@ const Home = ({navigation}) => {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('itemDesc');
+          navigation.navigate('lootStore');
         }}>
         <ImageBackground
           source={require('../assets/img_5.png')}

@@ -26,6 +26,7 @@ import OrderSuccess from './src/screens/orderSuccess';
 import Notifications from './src/screens/notifications';
 import ItemDesc from './src/screens/itemDesc';
 import ForgotPassword from './src/screens/forgotPassword';
+import LootStore from './src/screens/lootStore'
 
 const {width, height} = Dimensions.get('window');
 
@@ -138,6 +139,7 @@ const App = () => {
           <Stack.Screen name="notifications" component={Notifications} />
           <Stack.Screen name="itemDesc" component={ItemDesc} />
           <Stack.Screen name="forgotPassword" component={ForgotPassword} />
+          <Stack.Screen name="lootStore" component={LootStore} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>

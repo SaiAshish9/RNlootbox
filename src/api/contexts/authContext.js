@@ -37,6 +37,16 @@ const reducer = (state, action) => {
         ...state,
         loading: !state.loading,
       };
+    case 'validation_error':
+      return {
+        ...state,
+        validationError: action.payload,
+      };
+    case 'language':
+      return {
+        ...state,
+        language: action.payload,
+      };
     default:
       return state;
   }
@@ -54,7 +64,12 @@ const checkUser = (dispatch) => async () => {
     // if (userId && userId.length > 0) {
     // navigate({name: 'otp'});
     // }else {
-    navigate({name: 'language'});
+    const language = await AsyncStorage.getItem('language');
+    if (language) {
+      navigate({name: 'auth'});
+    } else {
+      navigate({name: 'language'});
+    }
     // }
   }
 };
@@ -92,6 +107,14 @@ const googleSignIn = (dispatch) => async () => {
       });
       await AsyncStorage.setItem('token', data.token);
       navigate({name: 'home'});
+    } else if (data.is_otp_verified === false) {
+      await AsyncStorage.setItem('userId', data.user_id.toString());
+      await navigate({name: 'otp'});
+      dispatch({
+        type: 'add_msg',
+        payload:
+          'OTP not verified yet.We sent you an otp.Please verify it first !',
+      });
     } else {
       dispatch({
         type: 'add_msg',
@@ -101,10 +124,10 @@ const googleSignIn = (dispatch) => async () => {
     await GoogleSignin.revokeAccess();
     await GoogleSignin.signOut();
   } catch (err) {
-    dispatch({
-      type: 'add_msg',
-      payload: 'Something went wrong ',
-    });
+    // dispatch({
+    //   type: 'add_msg',
+    //   payload: 'Something went wrong ',
+    // });
     await GoogleSignin.revokeAccess();
     await GoogleSignin.signOut();
   }
@@ -131,7 +154,8 @@ const signin = (dispatch) => async ({email, password}) => {
       await navigate({name: 'otp'});
       dispatch({
         type: 'add_msg',
-        payload: 'OTP not verified yet.We sent you an otp.Please verify it first !',
+        payload:
+          'OTP not verified yet.We sent you an otp.Please verify it first !',
       });
     }
     dispatch({
@@ -219,10 +243,10 @@ const signup = (dispatch) => async (data) => {
       type: 'toggle_loading',
     });
   } catch (e) {
-    console.log(e);
+    // console.log(e.message);
     dispatch({
       type: 'add_msg',
-      payload: 'Something went wrong ',
+      payload: 'User with that email or password already exists',
     });
     dispatch({
       type: 'toggle_loading',
@@ -236,6 +260,7 @@ const forgotPassword = (dispatch) => async (email) => {
       type: 'toggle_loading',
     });
     const res = await Api.post('app/user/forgot-password', {email});
+    console.log(res.data);
     if (res.data.success) {
       dispatch({
         type: 'add_msg',
@@ -273,6 +298,16 @@ const signout = (dispatch) => async () => {
 const addError = (dispatch) => (msg) =>
   dispatch({type: 'add_msg', payload: msg});
 
+const setValidationError = (dispatch) => (msg) => {
+  dispatch({type: 'validation_error', payload: msg});
+  console.log(msg);
+};
+
+const setLanguage = (dispatch) => async (language) => {
+  await AsyncStorage.setItem('language', language);
+  dispatch({type: 'language', payload: language});
+};
+
 const removeError = (dispatch) => () => dispatch({type: 'remove_error'});
 
 export const {Context, Provider} = createDataContext(
@@ -286,12 +321,16 @@ export const {Context, Provider} = createDataContext(
     verifyOtp,
     resendOtp,
     addError,
+    setLanguage,
     googleSignIn,
+    setValidationError,
     forgotPassword,
   },
   {
     token: null,
     msg: '',
     loading: false,
+    validationError: null,
+    language: null,
   },
 );

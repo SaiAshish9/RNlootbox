@@ -23,7 +23,11 @@ const {height, width} = Dimensions.get('window');
 
 const Signup = ({navigation, route}) => {
   const [selected, setSelected] = useState(false);
-  const {signup, addError, googleSignIn, state} = useContext(AuthContext);
+  const {signup, setValidationError, googleSignIn, state} = useContext(
+    AuthContext,
+  );
+
+  const {validationError} = state;
 
   const [first_name, setFirstName] = useState(
     route.params ? route.params.firstName : null,
@@ -36,7 +40,6 @@ const Signup = ({navigation, route}) => {
   const [password, setPassword] = useState(null);
   const [user_type, setUserType] = useState(1);
   const [is_google, setIsGoogle] = useState(0);
-  const [validationError, setValidationError] = useState(null);
 
   const data = {
     first_name,
@@ -205,10 +208,12 @@ const Signup = ({navigation, route}) => {
                   marginTop: 10,
                   color: '#dacae8',
                   fontSize: 12,
-                  height: height * 0.04,
+                  // height: height * 0.04,
                   display: 'flex',
                   width: width * 0.7,
                   flexWrap: 'wrap',
+                  position: 'relative',
+                  zIndex: 333,
                 }}>
                 By clicking signup you agree to our{' '}
                 <Text
@@ -247,34 +252,38 @@ const Signup = ({navigation, route}) => {
                   signup(data);
                 } else {
                   if (password && password.length < 6) {
-                    addError('Password must be at least 6 characters');
+                    setValidationError(
+                      'Password must be at least 6 characters',
+                    );
                   }
                   if (
                     email &&
                     !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
                   ) {
-                    addError('Invalid Email Address');
+                    setValidationError('Invalid Email Address');
                   }
-                  if (!(phone.length >= 10 && phone.length <= 15)) {
-                    addError('Phone Number Length should be between 10 and 15');
+                  if (phone && !(phone.length >= 10 && phone.length <= 15)) {
+                    setValidationError(
+                      'Phone Number Length should be between 10 and 15',
+                    );
                   }
                   if (!selected) {
-                    addError('Agree to our terms and conditions');
+                    setValidationError('Agree to our terms and conditions');
                   }
                   if (!first_name) {
-                    addError('First Name Is Required');
+                    setValidationError('First Name Is Required');
                   }
                   if (!last_name) {
-                    addError('Last Name Is Required');
+                    setValidationError('Last Name Is Required');
                   }
                   if (!phone) {
-                    addError('Phone Number Is Required');
+                    setValidationError('Phone Number Is Required');
                   }
                   if (!email) {
-                    addError('Email Address Is Required');
+                    setValidationError('Email Address Is Required');
                   }
                   if (!password) {
-                    addError('Password Is Required');
+                    setValidationError('Password Is Required');
                   }
                 }
                 // navigation.navigate('otp');
@@ -306,7 +315,7 @@ const Signup = ({navigation, route}) => {
                       letterSpacing: 0.5,
                       fontStyle: 'italic',
                     }}>
-                    SIGN UP
+                    SUBMIT
                   </Text>
                 ) : (
                   <ActivityIndicator color="#ECDBFA" size="small" />

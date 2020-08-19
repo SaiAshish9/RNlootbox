@@ -26,9 +26,12 @@ const {height, width} = Dimensions.get('window');
 const Signin = ({navigation}) => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
-  const [validationError, setValidationError] = useState(null);
 
-  const {signin, state, googleSignIn} = useContext(AuthContext);
+  const {signin, state, googleSignIn, setValidationError} = useContext(
+    AuthContext,
+  );
+
+  const {validationError} = state;
 
   return (
     <TouchableWithoutFeedback
@@ -157,7 +160,7 @@ const Signin = ({navigation}) => {
                   ) {
                     setValidationError('Invalid Email address');
                   }
-                  if (!(password.length >= 6)) {
+                  if (password && !(password.length >= 6)) {
                     setValidationError(
                       'Password must be at least 6 characters',
                     );
